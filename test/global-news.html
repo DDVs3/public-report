@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 全球新闻速递 | 2026年4月25日</title>
+    <style>
+        :root {
+            --primary: #00d4aa;
+            --secondary: #7c3aed;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header .date {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .breaking-news {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .breaking-news h2 {
+            color: #ef4444;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breaking-news .breaking-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .breaking-news .breaking-item:last-child {
+            border-bottom: none;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title .emoji {
+            font-size: 1.8rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .news-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(0, 212, 170, 0.15);
+        }
+
+        .news-card .source {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        .news-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .news-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .news-card .time {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        .tech-highlight {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 212, 170, 0.05));
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .tech-highlight h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌍 全球新闻速递</h1>
+        <p class="date">📅 2026年4月25日 星期六</p>
+    </header>
+
+    <div class="container">
+        <!-- 头条速报 -->
+        <div class="breaking-news">
+            <h2>🔥 今日头条</h2>
+            <div class="breaking-item">
+                <strong>美伊和谈曙光乍现</strong>：特朗普特使威特科夫与库什纳周六赴巴基斯坦推动谈判，美伊第三轮间接核谈判将于4月26日举行
+            </div>
+            <div class="breaking-item">
+                <strong>中东局势进入第57天</strong>：三艘美军航母齐聚中东（数十年来首次），伊朗宣布已生产逾千种武器装备
+            </div>
+            <div class="breaking-item">
+                <strong>美股再创新高</strong>：标普500与纳指双双创历史新高，费城半导体指数创纪录连涨18日
+            </div>
+        </div>
+
+        <!-- 国际政治 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🌐</span>
+                国际政治
+            </h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <span class="source">央视新闻</span>
+                    <h3>美伊和谈重启曙光</h3>
+                    <p>白宫特使威特科夫与库什纳周六赴巴基斯坦推进谈判，伊朗外长阿拉格齐展开地区访问。美伊第三轮间接核谈判26日举行。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">新华社</span>
+                    <h3>伊朗恢复国际航线</h3>
+                    <p>伊朗宣布自25日起全面恢复德黑兰至北京直达客运航班，同时重启前往伊斯坦布尔、马斯喀特等多条国际航线。</p>
+                    <span class="time">🕐 2026年4月24日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">凤凰卫视</span>
+                    <h3>英法达成移民管控协议</h3>
+                    <p>英法正式签署三年合作协议，共同整治英吉利海峡非法偷渡问题，英方投入巨额资金，法方增派上千名执法人员。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">中新社</span>
+                    <h3>中方谴责日本政要参拜靖国神社</h3>
+                    <p>中国驻日本大使馆对日本首相高市早苗等120多名议员参拜靖国神社提出严正交涉、强烈抗议。</p>
+                    <span class="time">🕐 2026年4月21日</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 财经市场 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">📈</span>
+                财经市场
+            </h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <span class="source">晨闻世界</span>
+                    <h3>标普纳指创历史新高</h3>
+                    <p>美伊谈判预期升温、英特尔绩后飙升，推动标普收涨0.8%，纳指收涨1.6%，齐创历史新高。费城半导体指数涨4.32%。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">新浪财经</span>
+                    <h3>英特尔股价飙升24%</h3>
+                    <p>英特尔一季度营收136亿美元，同比增长7%，数据中心与AI业务营收同比增22%，创1987年以来最佳单日表现。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">央视财经</span>
+                    <h3>一季度财政收入创新高</h3>
+                    <p>全国一般公共预算收入61613亿元，同比增长2.4%。全国实际使用外资2496亿元，新设外企数量增长11%。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">金融时报</span>
+                    <h3>国际油价大幅波动</h3>
+                    <p>WTI原油跌破95美元/桶（本周累计涨14.88%），布伦特原油105.9美元/桶。市场对美伊和谈前景预期改善。</p>
+                    <span class="time">🕐 2026年4月24日</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 科技前沿 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🚀</span>
+                科技前沿
+            </h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <span class="source">环球时报</span>
+                    <h3>北京车展开幕：42项黑科技亮相</h3>
+                    <p>2026北京国际汽车展览会以"领时代、智未来"为主题，展出面积38万平方米，42项核心技术全面爆发，覆盖智能驾驶、芯片、电池等领域。</p>
+                    <div class="tech-highlight">
+                        <h4>🔥 国产智驾突破</h4>
+                        <p>华为乾昆ADS 5.0实现全场景无图NOA，蔚来搭载5nm自研智驾芯片，中国品牌展台前超过一半是外国面孔。</p>
+                    </div>
+                    <span class="time">🕐 2026年4月24日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">量子位</span>
+                    <h3>DeepSeek V4预览版发布</h3>
+                    <p>DeepSeek V4正式上线，深度适配国产芯片，显存和算力需求大降，Agent能力领跑国内开源，体验超越Sonnet 4.5。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">光明网</span>
+                    <h3>嫦娥五号发现月球新矿物</h3>
+                    <p>我国科学家在嫦娥五号月球样品中发现两种月球新矿物，分别命名为"镁嫦娥石"与"铈嫦娥石"。</p>
+                    <div class="tech-highlight">
+                        <h4>🪐 天问三号计划</h4>
+                        <p>计划于2028年前后发射，2031年前将火星样品带回地球。</p>
+                    </div>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">CSDN</span>
+                    <h3>人形机器人工业应用突破</h3>
+                    <p>智元机器人在3C产线连续运行8小时，作业成功率达99.5%以上，每小时完成310件产品，标志着具身智能从概念走向生产力。</p>
+                    <span class="time">🕐 2026年4月14日</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 社会民生 -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="emoji">🏠</span>
+                社会民生
+            </h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <span class="source">央视新闻</span>
+                    <h3>大熊猫"平平""福双"将赴美</h3>
+                    <p>来自成都的大熊猫将启程赴美国亚特兰大动物园，开启为期十年的旅居生活，标志着中美新一轮大熊猫保护合作。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">铁路12306</span>
+                    <h3>旅游满减券发放</h3>
+                    <p>5月10日至31日期间，铁路12306"铁路旅游"专区将发放满减券，包括5.19元、51.9元、519元三档。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">中新社</span>
+                    <h3>"五一"档电影片单发布</h3>
+                    <p>涵盖革命历史、喜剧、动作等题材，包括《10间敢死队》《寒战1994》等，假期观影选择丰富。</p>
+                    <span class="time">🕐 2026年4月25日</span>
+                </div>
+                <div class="news-card">
+                    <span class="source">新华社</span>
+                    <h3>志愿军烈士遗骸归国</h3>
+                    <p>第十三批12位在韩中国人民志愿军烈士遗骸由运-20B运输机接迎回国，返程时由4架歼-20护航。</p>
+                    <span class="time">🕐 2026年4月22日</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>数据来源：综合整理自新华社、央视新闻、环球时报等媒体</p>
+        <p>📅 更新时间：2026年4月25日 | <a href="https://public-report.idavisan.workers.dev">返回首页</a></p>
+    </footer>
+</body>
+</html>
