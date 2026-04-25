@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇨🇳 中国新闻简报 | 2026年4月25日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(220,38,38,0.2) 0%, rgba(185,28,28,0.1) 100%);
+            border-bottom: 3px solid #dc2626;
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .flag {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(220,38,38,0.5);
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            color: #dc2626;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .category-section {
+            margin-bottom: 40px;
+        }
+        
+        .category-title {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+        }
+        
+        .category-title h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            font-size: 1.8rem;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .news-card {
+            background: linear-gradient(145deg, rgba(30,30,50,0.8) 0%, rgba(20,20,35,0.9) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(220,38,38,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(220,38,38,0.5);
+            box-shadow: 0 10px 30px rgba(220,38,38,0.2);
+        }
+        
+        .news-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .news-source {
+            background: rgba(220,38,38,0.2);
+            color: #f87171;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .news-time {
+            color: #666;
+        }
+        
+        .news-summary {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .highlight-card {
+            background: linear-gradient(145deg, rgba(220,38,38,0.15) 0%, rgba(30,30,50,0.8) 100%);
+            border: 2px solid rgba(220,38,38,0.4);
+        }
+        
+        .highlight-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc2626;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #666;
+        }
+        
+        .footer-link {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            
+            .flag {
+                font-size: 48px;
+            }
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #dc2626;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="flag">🇨🇳</div>
+        <h1>中国新闻简报</h1>
+        <p class="date">📅 2026年4月25日 星期六</p>
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">新闻分类</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">20+</div>
+                <div class="stat-label">精选新闻</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- 时政要闻 -->
+        <section class="category-section">
+            <div class="category-title">
+                <h2><span class="category-icon">📋</span> 时政要闻</h2>
+            </div>
+            <div class="news-grid">
+                <article class="news-card highlight-card">
+                    <span class="highlight-badge">头条</span>
+                    <h3 class="news-title">习近平同老挝、佛得角领导人互致贺电</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央视新闻</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">国家主席习近平同老挝人民革命党中央委员会总书记、国家主席通伦就中老建交65周年互致贺电。同日，习近平同佛得角总统内维斯就中佛建交50周年互致贺电。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">习近平对"义乌发展经验"作出重要指示</h3>
+                    <div class="news-meta">
+                        <span class="news-source">新闻联播</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">习近平总书记对进一步总结好运用好"义乌发展经验"作出重要指示，引发热烈反响。义乌作为世界小商品之都，其发展经验将为全国提供重要参考。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">蔡奇在山西大同市调研</h3>
+                    <div class="news-meta">
+                        <span class="news-source">新闻联播</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">中共中央政治局常委、中央书记处书记蔡奇在山西大同市调研，强调要深入贯彻落实党中央决策部署，推动高质量发展。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">中央纪委监委通报8起违反八项规定典型问题</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央视新闻</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">中央纪委国家监委对8起违反中央八项规定精神典型问题进行公开通报，持续释放作风建设永远在路上的强烈信号。</p>
+                </article>
+            </div>
+        </section>
+        
+        <!-- 经济财经 -->
+        <section class="category-section">
+            <div class="category-title">
+                <h2><span class="category-icon">💰</span> 经济财经</h2>
+            </div>
+            <div class="news-grid">
+                <article class="news-card highlight-card">
+                    <span class="highlight-badge">亮点</span>
+                    <h3 class="news-title">一季度财政收入61613亿元 创三年同期新高</h3>
+                    <div class="news-meta">
+                        <span class="news-source">财政部</span>
+                        <span class="news-time">2026-04-24</span>
+                    </div>
+                    <p class="news-summary">一季度全国一般公共预算收入61613亿元，同比增长2.4%，增幅为三年同期最高，反映出我国经济运行在"十五五"开局之年起步有力、开局良好。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">八部门联合发布金融产品网络营销新规</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央行</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">中国人民银行等八部门发布新规，要求9月30日起，贷款产品禁用"低门槛""秒到账""低利率"等误导性营销话术，严禁诱导超前消费。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">证监会部署2026年打击财务造假专项行动</h3>
+                    <div class="news-meta">
+                        <span class="news-source">证监会</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">证监会部署2026年打击和防范上市公司财务造假专项行动，重点打击欺诈发行、违规披露等行为，涉嫌犯罪的线索将坚决移送公安机关。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">铁路12306将发放三档满减券 最高519元</h3>
+                    <div class="news-meta">
+                        <span class="news-source">国铁集团</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">5月10日至31日期间，铁路12306客户端"铁路旅游"专区将发放5.19元、51.9元、519元三档满减券，老年旅客周中乘车可享折上折，试点自行车随身行服务。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">一季度新增专项债券发行超万亿元</h3>
+                    <div class="news-meta">
+                        <span class="news-source">财政部</span>
+                        <span class="news-time">2026-04-24</span>
+                    </div>
+                    <p class="news-summary">一季度新增专项债券发行数据出炉，规模超万亿元。同时招标发行两期超长期特别国债，20年期340亿元、30年期850亿元，合计1190亿元。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">进出口银行一季度外贸贷款超3000亿元</h3>
+                    <div class="news-meta">
+                        <span class="news-source">中国进出口银行</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">中国进出口银行一季度投放外贸领域贷款超过3000亿元，全力支持外贸企业拓市场、稳订单。</p>
+                </article>
+            </div>
+        </section>
+        
+        <!-- 科技创新 -->
+        <section class="category-section">
+            <div class="category-title">
+                <h2><span class="category-icon">🚀</span> 科技创新</h2>
+            </div>
+            <div class="news-grid">
+                <article class="news-card highlight-card">
+                    <span class="highlight-badge">重磅</span>
+                    <h3 class="news-title">长征六号成功发射巴基斯坦PRSC-EO3卫星</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央视新闻</span>
+                        <span class="news-time">2026-04-25 20:15</span>
+                    </div>
+                    <p class="news-summary">北京时间4月25日20时15分，我国在太原卫星发射中心使用长征六号运载火箭，成功将巴基斯坦PRSC-EO3卫星发射升空，卫星顺利进入预定轨道。此次任务是长征系列运载火箭第640次飞行。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">嫦娥五号月壤发现两种新矿物：镁嫦娥石、铈嫦娥石</h3>
+                    <div class="news-meta">
+                        <span class="news-source">中科院</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">我国科学家从嫦娥五号月球样品中发现了两种全新月球矿物——镁嫦娥石和铈嫦娥石，深化了人类对月球演化历史的认知。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">天问三号计划2028年发射 2031年火星采样返回</h3>
+                    <div class="news-meta">
+                        <span class="news-source">国家航天局</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">中国深空探测计划再进一步，天问三号任务正式官宣，计划2028年发射、2031年实现火星采样返回，标志着我国深空探测能力迈上新台阶。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">我国建成新一代激光波长量子基准</h3>
+                    <div class="news-meta">
+                        <span class="news-source">中华网</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">我国科研人员成功建成新一代激光波长量子基准，这一成果将在精密测量、时间标准等领域发挥重要作用。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">首个百万方级盐穴储氢项目在河南投产</h3>
+                    <div class="news-meta">
+                        <span class="news-source">新华财经</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">4月25日，我国首个百万方级盐穴储氢示范项目在河南省平顶山市正式投产运行，标志着我国氢能"制—储—输—用"迈入产业化新阶段。</p>
+                </article>
+            </div>
+        </section>
+        
+        <!-- 社会民生 -->
+        <section class="category-section">
+            <div class="category-title">
+                <h2><span class="category-icon">👥</span> 社会民生</h2>
+            </div>
+            <div class="news-grid">
+                <article class="news-card highlight-card">
+                    <span class="highlight-badge">便民</span>
+                    <h3 class="news-title">深圳水官高速4月25日起永久免费通行</h3>
+                    <div class="news-meta">
+                        <span class="news-source">今日头条</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">今日起深圳水官高速终结25年收费历史，实现永久免费通行，将有效缓解深圳东部交通压力，便利市民出行。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">中美开启新一轮大熊猫保护合作</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央视新闻</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">来自成都的大熊猫"平平"与"福双"将赴美开启十年旅居生活，中美开启新一轮大熊猫保护合作，续写"熊猫外交"新篇章。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">2026泰晤士亚洲大学排名：清华八连冠 北大第二</h3>
+                    <div class="news-meta">
+                        <span class="news-source">中国新闻网</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">2026年泰晤士亚洲大学排名公布，清华大学连续第8年位居榜首，北京大学稳坐第二名，中国高校继续领跑亚洲高等教育。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">2026"五一"档电影片单发布 预售票房破1500万</h3>
+                    <div class="news-meta">
+                        <span class="news-source">央视新闻</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">2026"五一"档电影片单正式发布，"光影伴旅·跟着电影去旅游"活动同步启动。目前预售票房已突破1500万元，《给阿嬷的情书》《寒战1994》等影片分列前三位。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">第139届广交会：创新设计赋能中国制造出海</h3>
+                    <div class="news-meta">
+                        <span class="news-source">新闻联播</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">第139届广交会正在进行，创新设计成为中国企业出海的新名片，展现中国制造转型升级的最新成果。</p>
+                </article>
+                
+                <article class="news-card">
+                    <h3 class="news-title">亚沙会第三比赛日 中国队单日再夺四金</h3>
+                    <div class="news-meta">
+                        <span class="news-source">新闻联播</span>
+                        <span class="news-time">2026-04-25</span>
+                    </div>
+                    <p class="news-summary">亚沙会比赛持续进行，中国体育健儿表现出色，在第三比赛日单日再夺四枚金牌，展现中国体育实力。</p>
+                </article>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>📡 中国新闻简报 | 自动生成于 2026年4月25日</p>
+        <p style="margin-top: 10px;">
+            <a href="https://public-report.idavisan.workers.dev/test/china-news.html" class="footer-link" target="_blank">
+                🔗 在线查看完整版
+            </a>
+        </p>
+    </footer>
+</body>
+</html>
