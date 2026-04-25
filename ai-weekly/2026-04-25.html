@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI & 科技周报（Week 17）</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 1rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.75rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-hot {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .badge-new {
+            background: #ecfdf5;
+            color: var(--secondary);
+        }
+
+        .badge-trend {
+            background: #fffbeb;
+            color: var(--accent);
+        }
+
+        .badge-hardware {
+            background: #f0fdfa;
+            color: #0d9488;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-content ul {
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .card-content li {
+            margin-bottom: 0.3rem;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.3rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.3rem 0.6rem;
+            background: var(--bg);
+            border-radius: 0.3rem;
+        }
+
+        .trend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .trend-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .trend-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .trend-content {
+            flex: 1;
+        }
+
+        .trend-title {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .trend-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+
+        .metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric {
+            background: var(--bg);
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.3rem;
+            font-size: 0.7rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .highlight-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+            .header {
+                padding: 1rem 0.75rem;
+            }
+            .header h1 {
+                font-size: 1.2rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 AI & 科技周报</h1>
+            <div class="subtitle">Week 17 · 2026年4月19日 - 4月25日</div>
+            <div class="meta-info">
+                <span>📅 2026年4月25日</span>
+                <span>🌍 全球视野</span>
+                <span>🔬 硬核科技</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Key News -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>📰</span> 本周重点新闻
+            </h2>
+            <div class="cards-grid">
+                <!-- GPT-5.5 vs DeepSeek V4 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">GPT-5.5 vs DeepSeek V4 同日发布</div>
+                        <span class="card-badge badge-hot">🔥 头条</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hot">📅 4月24日</span>
+                        <span>🌍 全球</span>
+                    </div>
+                    <div class="card-content">
+                        <p>全球AI发展史上极具标志性的一天：OpenAI GPT-5.5与国产DeepSeek V4同日发布，形成闭源旗舰与开源普惠的正面碰撞。</p>
+                        <ul>
+                            <li><strong>GPT-5.5</strong>：主打Agent智能体，Terminal-Bench 2.0准确率82.7%，API定价上调约一倍</li>
+                            <li><strong>DeepSeek V4</strong>：完全开源，百万Token上下文成标配，Codeforces 3206分超越GPT-5.4</li>
+                            <li>两种路线正面碰撞：闭源高价 vs 开源普惠</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 CSDN/掘金</span>
+                    </div>
+                </div>
+
+                <!-- EU AI Act -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">欧盟AI法案正式生效</div>
+                        <span class="card-badge badge-new">🏛️ 监管</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-new">📅 4月24日</span>
+                        <span>🇪🇺 欧洲</span>
+                    </div>
+                    <div class="card-content">
+                        <p>欧盟《人工智能法案》（AI Act）正式生效，27个成员国同步实施，全球AI监管进入强合规时代。</p>
+                        <div class="highlight-box">
+                            <div class="highlight-title">核心要点</div>
+                            <ul>
+                                <li>四级风险分类：高风险AI严格监管，低风险豁免</li>
+                                <li>违规处罚：最高罚款全球营业额6%</li>
+                                <li>全球示范效应，影响跨国企业AI布局</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 CSDN</span>
+                    </div>
+                </div>
+
+                <!-- Apple Gemini -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">苹果10亿美元引入Gemini重塑Siri</div>
+                        <span class="card-badge badge-new">🍎 巨头</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-new">📅 4月23日</span>
+                        <span>🇺🇸 美国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>苹果与谷歌达成战略合作，投入10亿美元将Gemini深度集成至iOS与macOS，全面升级Siri智能体能力，对抗GPT-5.5带来的生态压力。</p>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">$10亿</span> 战略投资</span>
+                            <span class="metric"><span class="metric-value">Gemini</span> 深度集成</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 CSDN</span>
+                    </div>
+                </div>
+
+                <!-- China AI Safety Whitepaper -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">中国发布智能体安全白皮书</div>
+                        <span class="card-badge badge-trend">🇨🇳 中国</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-trend">📅 4月24日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>国内同步发布《智能体安全白皮书（2026）》，由AI产业创新联盟牵头制定，涵盖10项核心安全标准。</p>
+                        <ul>
+                            <li>智能体身份标识与行为可追溯</li>
+                            <li>数据安全、权限管控、伦理约束</li>
+                            <li>形成"模型合规+应用管控+智能体安全"三位一体格局</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 CSDN</span>
+                    </div>
+                </div>
+
+                <!-- World Models -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">中国巨头密集发布世界模型</div>
+                        <span class="card-badge badge-trend">🌐 空间智能</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-trend">📅 4月16-23日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>腾讯、阿里、字节密集发布"世界模型"产品，大模型竞赛从虚拟语言交互烧向物理世界空间智能。</p>
+                        <ul>
+                            <li><strong>腾讯HY-World 2.0</strong>（4月16日）：开源3D资产工厂，无缝对接Unity/UE</li>
+                            <li><strong>阿里Happy Oyster</strong>（4月16日）：实时世界模拟器，漫游+导演双模式</li>
+                            <li><strong>字节Seed3D 2.0</strong>（4月23日）：生产级精度，API上线火山引擎</li>
+                            <li><strong>英伟达+奇瑞</strong>：战略合作布局物理AI</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Products & Tools -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>🚀</span> 新产品 & 工具
+            </h2>
+            <div class="cards-grid">
+                <!-- Hardware: DJI Lito -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">大疆DJI Lito系列无人机</div>
+                        <span class="card-badge badge-hardware">📸 硬件</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月24日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>大疆推出入门级航拍无人机Lito X1与Lito 1，主打轻量化、全向避障、智能跟随，售价1999元起。</p>
+                        <ul>
+                            <li>机身重量低于249克，可折叠收纳</li>
+                            <li>全向智能跟随+全向避障系统</li>
+                            <li>Lito X1：8K照片、4K/100fps慢动作</li>
+                            <li>续航36分钟（标配）/52分钟（长续航）</li>
+                        </ul>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">¥1999</span> 起售价</span>
+                            <span class="metric"><span class="metric-value">8K</span> 照片</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: Huawei Pura 90 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">华为Pura 90系列 & Pura X Max</div>
+                        <span class="card-badge badge-hardware">📱 手机</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月20日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>华为发布Pura 90系列（全系直屏+麒麟9030+鸿蒙OS 6.0）与全球首款大阔折Pura X Max。</p>
+                        <ul>
+                            <li><strong>Pura 90 Pro</strong>：两亿像素潜望长焦、6000mAh电池</li>
+                            <li><strong>Pura X Max</strong>：7.7英寸阔折叠、麒麟9030 Pro、10999元起</li>
+                            <li>玄武架构+第二代昆仑玻璃，IP58防尘抗水</li>
+                        </ul>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">¥10999</span> 阔折叠起价</span>
+                            <span class="metric"><span class="metric-value">2亿</span> 像素长焦</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: OPPO Find X9 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">OPPO Find X9 Ultra / Redmi K90 Max</div>
+                        <span class="card-badge badge-hardware">📱 手机</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月21日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>国产旗舰同日发布，技术全面突破。</p>
+                        <ul>
+                            <li><strong>Find X9 Ultra</strong>：骁龙8至尊版、哈苏五摄、7050mAh+100W快充</li>
+                            <li><strong>Redmi K90 Max</strong>：全球首款内置主动风冷、天玑9500+、8550mAh、2999元起</li>
+                        </ul>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">420万</span> 跑分</span>
+                            <span class="metric"><span class="metric-value">8550mAh</span> 电池</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: CATL Battery -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">宁德时代五大电池技术发布</div>
+                        <span class="card-badge badge-hardware">🔋 电池</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月23日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>宁德时代全球技术发布会发布五大前沿电池技术，终结补能焦虑。</p>
+                        <ul>
+                            <li><strong>麒麟凝聚态电池</strong>：能量密度450Wh/kg，续航1500km</li>
+                            <li><strong>6C超充</strong>：6分钟充满80%，补能比加油快</li>
+                            <li><strong>超换一体站</strong>：2026年底建4000座</li>
+                            <li><strong>固态电池原型</strong>：零下40℃正常放电</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 汽车实拍工坊</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: Huawei ADS 5.0 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">华为乾昆ADS 5.0 · L3自动驾驶商用</div>
+                        <span class="card-badge badge-hardware">🚗 汽车</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月23日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>华为发布乾昆ADS 5.0，跳代升级实现L3级自动驾驶正式商用，研发投入超100亿元。</p>
+                        <ul>
+                            <li>全域无图智驾，全国道路全覆盖</li>
+                            <li>Ultra版：全球量产最高896线激光雷达</li>
+                            <li>双域融合安全架构，制动/转向双重冗余</li>
+                            <li>国内首个明确高速L3责任归属方案</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <div class="highlight-title">里程碑</div>
+                            <p>中国智驾正式从"辅助驾驶"跃升至"自动驾驶"商用时代</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 汽车实拍工坊</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: Beijing Auto Show -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">2026北京国际汽车展览会</div>
+                        <span class="card-badge badge-hardware">🚗 汽车</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月24日-5月3日</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>以"领时代·智未来"为主题，全球第一大车展开幕，展场面积38万平方米创纪录。</p>
+                        <ul>
+                            <li>展车总数1451台，181款全球首发</li>
+                            <li>新能源车占比超60%</li>
+                            <li>小米SU7锁单超6万台，YU7 GT预告5月底发布</li>
+                            <li>蔚来携11款车型及12项技术亮相</li>
+                            <li>国际参展商比例创新高</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 环球时报/中国青年报</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: Space Launch -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">中国航天密集发射</div>
+                        <span class="card-badge badge-hardware">🚀 航天</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月</span>
+                        <span>🇨🇳 中国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>长征系列火箭密集发射，商业航天加速。</p>
+                        <ul>
+                            <li><strong>4月24日</strong>：长二丁火箭发射卫星互联网技术试验卫星（长征第639次）</li>
+                            <li><strong>4月17日</strong>：长四丙火箭发射高精度温室气体综合探测卫星</li>
+                            <li><strong>4月14日</strong>：力箭一号"十天三发"，验证7天快速发射能力</li>
+                            <li>力箭一号已将92颗卫星送入太空</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 中国航天科技集团</span>
+                    </div>
+                </div>
+
+                <!-- Hardware: Biotech -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">再生元耳聋基因疗法获FDA批准</div>
+                        <span class="card-badge badge-hardware">💊 生物制药</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-hardware">📅 4月23日</span>
+                        <span>🇺🇸 美国</span>
+                    </div>
+                    <div class="card-content">
+                        <p>全球首款耳聋基因疗法Otarmeni获FDA批准，再生元宣布在美国免费提供这款突破性疗法。</p>
+                        <ul>
+                            <li>80%患者重获自然听力（≤70分贝）</li>
+                            <li>42%患者听见耳语（≤25分贝）</li>
+                            <li>一次注射，持久甚至终身疗效</li>
+                            <li>标志着遗传性听力损失治疗进入基因时代</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Software: Hermes Agent -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Hermes Agent · 自进化AI智能体</div>
+                        <span class="card-badge badge-new">🛠️ 软件</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-new">📅 4月</span>
+                        <span>🌍 全球</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Nous Research推出的开源AI智能体，GitHub狂揽9万星，主打"与你一同成长的智能体"。</p>
+                        <ul>
+                            <li>四级分层记忆架构，自动沉淀技能</li>
+                            <li>支持400+主流模型一键切换</li>
+                            <li>原生内置Cron定时任务</li>
+                            <li>安全沙盒机制完备，开箱即用</li>
+                        </ul>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">9万+</span> GitHub Stars</span>
+                            <span class="metric"><span class="metric-value">400+</span> 模型支持</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Software: MemPalace -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">MemPalace · AI长期记忆系统</div>
+                        <span class="card-badge badge-new">🛠️ 软件</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-new">📅 4月</span>
+                        <span>🌍 全球</span>
+                    </div>
+                    <div class="card-content">
+                        <p>好莱坞女星Milla Jovovich发布的开源项目，解决AI"失忆"痛点，GitHub获4万星。</p>
+                        <ul>
+                            <li>逐字存储+语义搜索，96.6%召回率</li>
+                            <li>四层渐进式记忆栈，按需加载</li>
+                            <li>记忆宫殿概念，Wing-Room-Closet架构</li>
+                            <li>全部本地运行，隐私友好</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 头条</span>
+                    </div>
+                </div>
+
+                <!-- Software: Ollama -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ollama · 本地大模型推理标准</div>
+                        <span class="card-badge badge-new">🛠️ 软件</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-badge badge-new">📅 持续更新</span>
+                        <span>🌍 全球</span>
+                    </div>
+                    <div class="card-content">
+                        <p>让本地大模型跑进普通开发者的电脑，GitHub 9万星，已成为本地推理的事实标准。</p>
+                        <ul>
+                            <li>一行命令启动本地大模型</li>
+                            <li>支持Llama/Qwen/Mistral/DeepSeek等主流模型</li>
+                            <li>自动GPU调度，OpenAI API兼容</li>
+                            <li>隐私敏感场景首选，无API费用</li>
+                        </ul>
+                        <div class="metrics">
+                            <span class="metric"><span class="metric-value">9万+</span> GitHub Stars</span>
+                            <span class="metric"><span class="metric-value">MIT</span> License</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="source-tag">📋 掘金</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Trends -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>🧠</span> 趋势洞察
+            </h2>
+            <div class="trend-list">
+                <div class="trend-item">
+                    <div class="trend-icon">⚔️</div>
+                    <div class="trend-content">
+                        <div class="trend-title">开源与闭源路线正面碰撞，国产力量崛起</div>
+                        <div class="trend-desc">GPT-5.5与DeepSeek V4同日发布，DeepSeek V4在Codeforces等评测中超越GPT-5.4，成为开源第一。国产模型首次在核心能力上追平甚至超越闭源旗舰，百万上下文从"奢侈品"变为"日用品"。</div>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-icon">🌐</div>
+                    <div class="trend-content">
+                        <div class="trend-title">空间智能成为新战场，巨头集体押注</div>
+                        <div class="trend-desc">腾讯、阿里、字节、英伟达两周内密集发布世界模型，大模型竞赛从二维语言交互扩展至三维物理世界。游戏、影视、具身智能成为核心应用场景。</div>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-icon">🚗</div>
+                    <div class="trend-content">
+                        <div class="trend-title">L3级自动驾驶正式商用，中国智驾领跑</div>
+                        <div class="trend-desc">华为乾昆ADS 5.0跳代发布，实现国内首个明确高速L3责任归属方案。北京车展成为全球车市风向标，中国车企加速出海，外国客户最关注"China Cost"和"China Speed"。</div>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-icon">💻</div>
+                    <div class="trend-content">
+                        <div class="trend-title">国产算力生态加速成熟，昇腾芯片获批量采购</div>
+                        <div class="trend-desc">DeepSeek V4全程采用国产算力训练，美团LongCat-2.0动用5-6万张国产算力卡。阿里、字节等巨头数十万颗昇腾芯片订单，加速全国产AI基建布局。</div>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-icon">🏛️</div>
+                    <div class="trend-content">
+                        <div class="trend-title">全球AI监管进入强合规时代</div>
+                        <div class="trend-desc">欧盟AI法案正式生效，违规最高罚款全球营业额6%。中国同步发布智能体安全白皮书，形成"模型合规+应用管控+智能体安全"三位一体治理格局。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📬 科技与AI周报 | 由 AI 辅助生成 | 数据来源：TechCrunch/The Verge/36氪/掘金/中国航天科技集团等</p>
+            <p style="margin-top: 0.5rem;">🔗 收藏关注不迷路 · 每周六定期更新</p>
+        </div>
+    </div>
+</body>
+</html>
