@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球电池产业周报 | 2026年4月第4周</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #0066ff;
+            --secondary: #00cc99;
+            --accent: #ff6b35;
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+            --success: #3fb950;
+            --warning: #d29922;
+            --danger: #f85149;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .header-meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .date-badge {
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .update-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        /* News List */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .news-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            transition: all 0.3s;
+        }
+        
+        .news-item:hover {
+            border-color: var(--primary);
+            background: rgba(0,102,255,0.05);
+        }
+        
+        .news-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .tag-hot { background: rgba(248,81,73,0.2); color: var(--danger); }
+        .tag-tech { background: rgba(63,185,80,0.2); color: var(--success); }
+        .tag-policy { background: rgba(210,153,34,0.2); color: var(--warning); }
+        .tag-market { background: rgba(0,102,255,0.2); color: var(--primary); }
+        .tag-company { background: rgba(155,79,150,0.2); color: #9b4f96; }
+        
+        .news-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .news-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .news-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Company Logo & Flag */
+        .company-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .company-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+        
+        .flag-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            border-radius: 2px;
+        }
+        
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Stats */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0,102,255,0.1), rgba(0,204,153,0.1));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .change-up { background: rgba(63,185,80,0.2); color: var(--success); }
+        .change-down { background: rgba(248,81,73,0.2); color: var(--danger); }
+        
+        /* Charts */
+        .chart-container {
+            width: 100%;
+            height: 350px;
+            margin: 20px 0;
+        }
+        
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Price Table */
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .price-table th, .price-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .price-table th {
+            background: rgba(255,255,255,0.03);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        
+        .price-table td {
+            font-size: 0.9rem;
+        }
+        
+        .price-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .price-up { color: var(--danger); }
+        .price-down { color: var(--success); }
+        
+        /* Company Grid */
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .company-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .company-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .company-logo-large {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            object-fit: contain;
+        }
+        
+        .company-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .company-share {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        /* Policy Tags */
+        .policy-region {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+        }
+        
+        .region-cn { background: rgba(220,38,38,0.2); color: #dc2626; }
+        .region-eu { background: rgba(0,82,255,0.2); color: #0052ff; }
+        .region-us { background: rgba(59,130,246,0.2); color: #3b82f6; }
+        .region-global { background: rgba(139,92,246,0.2); color: #8b5cf6; }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title h1 { font-size: 1.5rem; }
+            .card { padding: 16px; }
+            .stat-value { font-size: 1.5rem; }
+            .price-table { font-size: 0.8rem; }
+            .price-table th, .price-table td { padding: 8px 10px; }
+        }
+        
+        /* Market Share Bar */
+        .market-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .market-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .bar-catL { background: linear-gradient(90deg, #0066ff, #00cc99); }
+        .bar-byd { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+        .bar-others { background: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="header-title">
+                <h1>🔋 全球电池产业周报</h1>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Global Battery Industry Weekly</p>
+            </div>
+            <div class="header-meta">
+                <span class="date-badge">📅 2026年4月第4周</span>
+                <span class="update-time">🕐 更新于 2026-04-26</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- 核心数据概览 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">核心数据速览</h2>
+            </div>
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value">124.9 GWh</div>
+                    <div class="stat-label">Q1国内动力电池装车量</div>
+                    <span class="stat-change change-down">同比 -4.1%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">47.7%</div>
+                    <div class="stat-label">宁德时代市占率</div>
+                    <span class="stat-change change-up">逆势增长 +3.4%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">17.2万</div>
+                    <div class="stat-label">电池级碳酸锂(元/吨)</div>
+                    <span class="stat-change change-up">高位震荡</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">215 GWh</div>
+                    <div class="stat-label">Q1储能电池出货量</div>
+                    <span class="stat-change change-up">同比 +139%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">56.8 GWh</div>
+                    <div class="stat-label">Q1动力电池出口量</div>
+                    <span class="stat-change change-up">同比 +50.3%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">42-50 GWh</div>
+                    <div class="stat-label">2026固态电池全球出货预期</div>
+                    <span class="stat-change change-up">量产元年启动</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 核心要闻 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">🔥</div>
+                <h2 class="card-title">核心要闻</h2>
+            </div>
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="news-tag tag-hot">🔥 热点</span>
+                    <h3 class="news-title">2026 Q1国内动力电池装车量同比下降4.1%，五年来首次下滑</h3>
+                    <div class="news-meta">
+                        <span>📍 中国</span>
+                        <span>🏷️ 动力电池</span>
+                        <span>📅 2026-04-26</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-hot">🔥 固态电池</span>
+                    <h3 class="news-title">固态电池量产元年启动：比亚迪通过车规级认证，广汽A样下线，宁德时代Q3交付</h3>
+                    <div class="news-meta">
+                        <span>🏭 比亚迪 · 广汽 · 宁德时代</span>
+                        <span>📅 2026-04-17/22</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-market">📈 市场</span>
+                    <h3 class="news-title">印尼削减30%镍矿配额，镍价单周暴涨14.3%，硫酸镍成本飙升132%</h3>
+                    <div class="news-meta">
+                        <span>🇮🇩 印尼</span>
+                        <span>📅 2026-04-24</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-policy">📜 政策</span>
+                    <h3 class="news-title">中国电池回收新规实施：强制闭环+数字溯源，破解欧盟绿色壁垒</h3>
+                    <div class="news-meta">
+                        <span>🇨🇳 中国政策</span>
+                        <span>📅 2026-04-01</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-market">📈 市场</span>
+                    <h3 class="news-title">储能电芯涨价25%-35%，"有钱买不到货"成常态，头部企业订单排至2027年Q2</h3>
+                    <div class="news-meta">
+                        <span>📍 储能市场</span>
+                        <span>📅 2026-04-18</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-company">🏢 企业</span>
+                    <h3 class="news-title">一周四大百亿级电池项目动态：远景宜昌二期开工，楚能襄阳70GWh冲刺8月投产</h3>
+                    <div class="news-meta">
+                        <span>🏭 远景 · 楚能 · 中创新航</span>
+                        <span>📅 2026-04-23</span>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <span class="news-tag tag-policy">📜 政策</span>
+                    <h3 class="news-title">欧盟电池法规全面落地：2026年碳足迹强制认证，再生材料比例逐年递增</h3>
+                    <div class="news-meta">
+                        <span>🇪🇺 欧盟</span>
+                        <span>📅 2026-04-26</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 价格行情 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">💰</div>
+                <h2 class="card-title">价格行情</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div>
+                    <h4 style="margin-bottom: 15px;">📈 关键原材料价格</h4>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>品种</th>
+                                <th>价格</th>
+                                <th>涨跌</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>电池级碳酸锂</td>
+                                <td>172,000 元/吨</td>
+                                <td class="price-up">↑ 震荡偏强</td>
+                            </tr>
+                            <tr>
+                                <td>工业级碳酸锂</td>
+                                <td>169,000 元/吨</td>
+                                <td class="price-up">↑ +2,000</td>
+                            </tr>
+                            <tr>
+                                <td>电池级硫酸镍</td>
+                                <td>32,600 元/吨</td>
+                                <td class="price-up">↑ +0.15%</td>
+                            </tr>
+                            <tr>
+                                <td>电解钴</td>
+                                <td>415,000 元/吨</td>
+                                <td>→ 持平</td>
+                            </tr>
+                            <tr>
+                                <td>电解镍</td>
+                                <td>141,500 元/吨</td>
+                                <td class="price-up">↑ +0.5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 15px;">🔋 电池及材料价格</h4>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>品种</th>
+                                <th>价格</th>
+                                <th>趋势</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>314Ah储能电芯</td>
+                                <td>0.36-0.39 元/Wh</td>
+                                <td class="price-up">↑ +25-35%</td>
+                            </tr>
+                            <tr>
+                                <td>储能系统(集采均价)</td>
+                                <td>≥0.5 元/Wh</td>
+                                <td class="price-up">↑ 回温</td>
+                            </tr>
+                            <tr>
+                                <td>六氟磷酸锂</td>
+                                <td>上涨 20%</td>
+                                <td class="price-up">↑ 成本支撑</td>
+                            </tr>
+                            <tr>
+                                <td>DMC溶剂</td>
+                                <td>6,000+ 元/吨</td>
+                                <td class="price-up">↑ 从4000反弹</td>
+                            </tr>
+                            <tr>
+                                <td>铜价</td>
+                                <td>9万+ 元/吨</td>
+                                <td class="price-up">↑ 历史新高</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="chart-container" id="priceChart"></div>
+        </section>
+        
+        <!-- 动力电池装机量 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">动力电池市场格局</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div>
+                    <h4 style="margin-bottom: 15px;">2026年3月动力电池装车量 TOP 10</h4>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>企业</th>
+                                <th>装车量</th>
+                                <th>市占率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:flash.svg?color=%2300cc99" class="company-logo" alt="CATL"/>宁德时代</span></td>
+                                <td>25.71 GWh</td>
+                                <td class="price-up">45.54%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:car-electric.svg?color=%23f59e0b" class="company-logo" alt="BYD"/>比亚迪</span></td>
+                                <td>10.06 GWh</td>
+                                <td>17.83%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:battery-charging.svg?color=%236b7280" class="company-logo" alt="CALB"/>中创新航</span></td>
+                                <td>3.52 GWh</td>
+                                <td>6.23%</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:battery-outline.svg?color=%236b7280" class="company-logo" alt="Gotion"/>国轩高科</span></td>
+                                <td>3.37 GWh</td>
+                                <td>5.97%</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:battery.svg?color=%236b7280" class="company-logo" alt="EVE"/>亿纬锂能</span></td>
+                                <td>2.74 GWh</td>
+                                <td>4.86%</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><span class="company-tag"><img src="https://api.iconify.design/mdi:battery-charging-100.svg?color=%236b7280" class="company-logo" alt="LG"/>LG新能源</span></td>
+                                <td>1.92 GWh</td>
+                                <td>3.40%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 15px;">市场集中度</h4>
+                    <div style="padding: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>宁德时代 + 比亚迪</span>
+                                <span class="price-up">63.4%</span>
+                            </div>
+                            <div class="market-bar">
+                                <div class="market-bar-fill bar-catL" style="width: 63.4%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>TOP 5 合计</span>
+                                <span>80.3%</span>
+                            </div>
+                            <div class="market-bar">
+                                <div class="market-bar-fill" style="width: 80.3%; background: linear-gradient(90deg, #0066ff, #00cc99);"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>TOP 10 合计</span>
+                                <span>93.9%</span>
+                            </div>
+                            <div class="market-bar">
+                                <div class="market-bar-fill" style="width: 93.9%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(255,107,53,0.1); border-radius: 8px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <strong style="color: var(--accent);">⚠️ 警示：</strong>2026年Q1配套企业仅36家，较去年同期减少10家，尾部企业加速出清
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" id="marketChart"></div>
+        </section>
+        
+        <!-- 技术进展 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">⚡</div>
+                <h2 class="card-title">电池产品与技术</h2>
+            </div>
+            
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="news-tag tag-tech">🔬 固态电池</span>
+                    <h3 class="news-title">比亚迪硫化物全固态电池通过中汽研车规级认证：能量密度400Wh/kg，续航1218公里</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        4月17日官宣：单体针刺最高温度仅32℃，无热失控；支持10分钟快充至80%；-20℃低温衰减&lt;10%。量产时间表：2026年深圳2GWh中试线投产，2027年小批量装车，2030年"液固同价"。
+                    </p>
+                    <div class="news-meta">
+                        <span class="company-tag"><img src="https://api.iconify.design/mdi:car-electric.svg?color=%23f59e0b" class="company-logo" alt="BYD"/>比亚迪</span>
+                        <span>📅 2026-04-17</span>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <span class="news-tag tag-tech">🔬 固态电池</span>
+                    <h3 class="news-title">广汽巨湾技研全固态电池A样电芯正式下线：深共熔基复合固态电解质路线</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        热失控温度超400℃；单体能量密度260-500Wh/kg；支持2-3C快充。山东菏泽基地规划8GWh总产能，目标2027年Q1正式装车，剑指"全球首款可量产全固态电池"。
+                    </p>
+                    <div class="news-meta">
+                        <span class="company-tag"><img src="https://api.iconify.design/mdi:flash.svg?color=%2300cc99" class="company-logo" alt="GAC"/>广汽</span>
+                        <span>📅 2026-04-22</span>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <span class="news-tag tag-tech">🔬 固态电池</span>
+                    <h3 class="news-title">恩力动力2GWh固态电池基地投产，"恩力磐石"系列产品发布</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        安徽合肥基地正式投产，4月16日在2026北京新能源车展发布全系列固态电池产品。德国大众ID.7已完成固态电池技术测试。
+                    </p>
+                    <div class="news-meta">
+                        <span class="company-tag"><img src="https://api.iconify.design/mdi:battery-charging.svg?color=%236b7280" class="company-logo" alt="Envision"/>恩力动力</span>
+                        <span>📅 2026-04-16</span>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <span class="news-tag tag-tech">🔬 行业</span>
+                    <h3 class="news-title">2026年全球固态电池出货预计42-50GWh，中国占60%份额</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        中国Q1半固态装车量同比+672%，国标《电动汽车用固态电池 术语和分类》将于2026年7月实施。全球竞争格局：中国领跑量产，日本丰田超3000项专利布局全固态。
+                    </p>
+                    <div class="news-meta">
+                        <span>🌏 全球</span>
+                        <span>📅 2026-04-23</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 储能市场 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">🔋</div>
+                <h2 class="card-title">储能市场</h2>
+            </div>
+            
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value">215 GWh</div>
+                    <div class="stat-label">Q1中国储能出货</div>
+                    <span class="stat-change change-up">同比 +139%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">216 GWh</div>
+                    <div class="stat-label">Q1全球储能出货</div>
+                    <span class="stat-change change-up">同比 +117%</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">25.3 GWh</div>
+                    <div class="stat-label">Q1储能招标规模</div>
+                    <span class="stat-change change-up">同比 +120%</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <h4 style="margin-bottom: 15px;">📌 市场三大驱动力</h4>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-tag tag-market">🤖 AI算力</span>
+                        <h3 class="news-title">AI数据中心配储成为刚性需求</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                            全国多地将储能配置纳入数据中心审批硬性指标，"源网荷储"一体化成为主流技术路径。2030年全球AI数据中心电力消耗预计占全球总用电量10%以上。
+                        </p>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-tag tag-market">⚡ 电网安全</span>
+                        <h3 class="news-title">电网安全刚性需求凸显</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                            全球新能源渗透率提升叠加电网老化，储能成为保障电网稳定运行的核心支撑。储能时长从4小时向6-8小时长时储能进阶。
+                        </p>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-tag tag-market">💡 市场化</span>
+                        <h3 class="news-title">国内电力市场化催生内生需求</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                            逐步摆脱"强制配储"驱动模式，独立储能、工商业储能持续扩容。东吴证券预测2026年国内储能新增装机将达265GWh，同比增长63%。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" id="storageChart"></div>
+        </section>
+        
+        <!-- 产业链动态 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">🏭</div>
+                <h2 class="card-title">产业链动态</h2>
+            </div>
+            
+            <h4 style="margin-bottom: 15px;">🔨 百亿级项目进展</h4>
+            <div class="grid-2">
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://raw.githubusercontent.com/DDVs3/public-report/main/web-icons/envision-远景.svg" class="company-logo-large" alt="Envision" onerror="this.src='https://api.iconify.design/mdi:factory.svg?color=%236b7280'"/>远景动力</span>
+                    <h3 class="news-title" style="margin-top: 10px;">宜昌超级工厂二期开工</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                        规划储能电芯60GWh + AI储能系统60GWh，预计2027年投产。远景打造全球首个百GWh级储能全产业链基地。
+                    </p>
+                    <span style="display: inline-block; margin-top: 8px; padding: 3px 8px; background: rgba(0,102,255,0.2); border-radius: 4px; font-size: 0.75rem;">
+                        📅 2026-04-23 | 🇨🇳 湖北宜昌
+                    </span>
+                </div>
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://api.iconify.design/mdi:warehouse.svg?color=%236b7280" class="company-logo-large" alt="Chuneng"/>楚能新能源</span>
+                    <h3 class="news-title" style="margin-top: 10px;">襄阳70GWh储能电池项目冲刺投产</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                        总投资220亿元，4000余名建设者昼夜施工，冲刺8月底投产。打造从电芯、PACK到储能系统的全产业链。
+                    </p>
+                    <span style="display: inline-block; margin-top: 8px; padding: 3px 8px; background: rgba(0,102,255,0.2); border-radius: 4px; font-size: 0.75rem;">
+                        📅 2026-04-20 | 🇨🇳 湖北襄阳
+                    </span>
+                </div>
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://raw.githubusercontent.com/DDVs3/public-report/main/web-icons/CALB-中创新航.svg" class="company-logo-large" alt="CALB" onerror="this.src='https://api.iconify.design/mdi:battery-charging.svg?color=%236b7280'"/>中创新航</span>
+                    <h3 class="news-title" style="margin-top: 10px;">厦门高性能锂电池项目全速推进</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                        总投资150亿元，三期二阶段试生产冲刺5月正式投产，三期三阶段预计9月封顶、明年3月投产。
+                    </p>
+                    <span style="display: inline-block; margin-top: 8px; padding: 3px 8px; background: rgba(0,102,255,0.2); border-radius: 4px; font-size: 0.75rem;">
+                        📅 2026-04-20 | 🇇�🇳 福建厦门
+                    </span>
+                </div>
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://api.iconify.design/mdi:lightning-bolt.svg?color=%236b7280" class="company-logo-large" alt="Dangzhuo"/>当卓科技</span>
+                    <h3 class="news-title" style="margin-top: 10px;">年产60GWh新型电池项目签约</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                        二期项目签约浙江嘉兴南湖区，计划总投资超百亿元。产品涵盖储能电芯和动力电芯，2027年下半年建成。
+                    </p>
+                    <span style="display: inline-block; margin-top: 8px; padding: 3px 8px; background: rgba(0,102,255,0.2); border-radius: 4px; font-size: 0.75rem;">
+                        📅 2026-04-20 | 🇨🇳 浙江嘉兴
+                    </span>
+                </div>
+            </div>
+            
+            <h4 style="margin: 25px 0 15px;">🔋 企业扩产动态</h4>
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://api.iconify.design/mdi:flash.svg?color=%2300cc99" class="company-logo" alt="CATL"/>宁德时代</span>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        变更A股募集资金用途，将48亿元投入"时代新能厦门电池产业基地项目"，聚焦锂离子电池系统生产线建设。
+                    </p>
+                </div>
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://api.iconify.design/mdi:battery.svg?color=%236b7280" class="company-logo" alt="EVE"/>亿纬锂能</span>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        不到半月连发多份扩产公告，计划在江苏启东、福建上杭、湖北荆门、惠州仲恺高新区新建产能合计230GWh，投资超230亿元。
+                    </p>
+                </div>
+                <div class="news-item">
+                    <span class="company-tag"><img src="https://api.iconify.design/mdi:battery-outline.svg?color=%236b7280" class="company-logo" alt="Svolt"/>蜂巢能源</span>
+                    <p style="emit: 10px;"><p style="color: var(--text-secondary); font-size: 0.85rem;">
+                        携全系产品亮相2026北京新能源车展，重点展示半固态电池等前沿技术的产业化落地，加速全球化战略。
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 政策法规 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">📜</div>
+                <h2 class="card-title">政策法规</h2>
+            </div>
+            
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="policy-region region-cn">🇨🇳 中国</span>
+                    <h3 class="news-title">《新能源汽车废旧动力电池回收和综合利用管理暂行办法》正式实施</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        "车电一体报废"强制闭环，堵住源头漏洞；全国溯源平台上线，为每块电池赋予"数字身份证"；强制回收率：镍钴锰≥98%、锂≥85%。有效对标欧盟电池护照制度。
+                    </p>
+                    <span style="display: inline-block; margin-top: 8px; padding: 3px 8px; background: rgba(220,38,38,0.2); border-radius: 4px; font-size: 0.75rem; color: #dc2626;">
+                        🏛️ 新规 · 2026年4月实施
+                    </span>
+                </div>
+                
+                <div class="news-item">
+                    <span class="policy-region region-cn">🇨🇳 中国</span>
+                    <h3 class="news-title">电池出口退税率阶段性下调</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        自2026年4月1日起，电池出口退税率从9%下调至6%；2027年1月1日起全面取消电池产品增值税出口退税。"反内卷、促升级"信号明确。
+                    </p>
+                </div>
+                
+                <div class="news-item">
+                    <span class="policy-region region-eu">🇪🇺 欧盟</span>
+                    <h3 class="news-title">欧盟电池法规2026年全面执行：碳足迹、再生材料、电池护照三关一证</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        <strong>碳足迹：</strong>动力电池初始限值80-100 kg CO₂e/kWh，2026年起强制认证<br>
+                        <strong>再生材料：</strong>2026年起步钴15%/锂10%/镍5%，2035年目标钴80%/锂60%/镍40%<br>
+                        <strong>回收率：</strong>总回收≥85%，锂≥70%，钴镍≥90%<br>
+                        <strong>电池护照：</strong>≥2kWh电池必须在2027年2月前完成注册
+                    </p>
+                </div>
+                
+                <div class="news-item">
+                    <span class="policy-region region-us">🇺🇸 美国</span>
+                    <h3 class="news-title">IRA法案持续收紧，本土化门槛提高</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        2026年对电池关键矿物与组件的本土化比例要求进一步提升；301关税全面生效。Q1中国蓄电池对美出口同比暴跌58.61%。
+                    </p>
+                </div>
+                
+                <div class="news-item">
+                    <span class="policy-region region-global">🌏 全球</span>
+                    <h3 class="news-title">全球新能源政策密集调整</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">
+                        <strong>🇯🇵 日本：</strong>加大钠离子电池研发补贴<br>
+                        <strong>🇰🇷 韩国：</strong>提高电动车补贴预算，升级电网储能配套<br>
+                        <strong>🇰🇭 柬埔寨：</strong>光伏/储能/新能源车及核心零部件全面免征进口关税，承接产业转移
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 重点公司 -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">🏢</div>
+                <h2 class="card-title">重点公司动态</h2>
+            </div>
+            
+            <div class="grid-3">
+                <div class="company-card">
+                    <img src="https://api.iconify.design/mdi:flash.svg?color=%2300cc99" class="company-logo-large" alt="CATL"/>
+                    <div class="company-name">宁德时代</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">全球领先</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 48亿投建厦门基地<br>
+                        • 欧洲工厂100%绿电<br>
+                        • 固态电池Q3交付
+                    </p>
+                </div>
+                <div class="company-card">
+                    <img src="https://api.iconify.design/mdi:car-electric.svg?color=%23f59e0b" class="company-logo-large" alt="BYD"/>
+                    <div class="company-name">比亚迪</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">垂直整合</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 全固态电池车规认证<br>
+                        • 匈牙利基地建设中<br>
+                        • Q1汽车销量下滑30%
+                    </p>
+                </div>
+                <div class="company-card">
+                    <img src="https://api.iconify.design/mdi:battery-charging.svg?color=%236b7280" class="company-logo-large" alt="CALB"/>
+                    <div class="company-name">中创新航</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">第三梯队</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 厦门150亿项目推进<br>
+                        • Q1市占率5.86%<br>
+                        • 出口增速超平均
+                    </p>
+                </div>
+                <div class="company-card">
+                    <img src="https://api.iconify.design/mdi:battery-outline.svg?color=%236b7280" class="company-logo-large" alt="Gotion"/>
+                    <div class="company-name">国轩高科</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">出口领先</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 金石电池获大众认证<br>
+                        • 出口增速行业领先<br>
+                        • 海外布局加速
+                    </p>
+                </div>
+                <div class="company-card">
+                    <img src="https://api.iconify.design/mdi:battery.svg?color=%236b7280" class="company-logo-large" alt="EVE"/>
+                    <div class="company-name">亿纬锂能</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">全面扩张</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 230GWh扩产计划<br>
+                        • 欧盟首张电池认证<br>
+                        • 回收率行业领先
+                    </p>
+                </div>
+                <div class="company-card">
+                    <img src="https://raw.githubusercontent.com/DDVs3/public-report/main/web-icons/envision-远景.svg" class="company-logo-large" alt="Envision" onerror="this.src='https://api.iconify.design/mdi:factory.svg?color=%236b7280'"/>
+                    <div class="company-name">远景动力</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">储能龙头</div>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">
+                        • 宜昌百GWh基地<br>
+                        • 全球首个储能全链<br>
+                        • AI储能系统发力
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 展望与总结 -->
+        <section class="card" style="background: linear-gradient(135deg, rgba(0,102,255,0.1), rgba(139,92,246,0.1));">
+            <div class="card-header">
+                <div class="card-icon">🎯</div>
+                <h2 class="card-title">本周核心观点</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div>
+                    <h4 style="color: var(--success); margin-bottom: 15px;">✅ 机遇</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--success);">●</span>
+                            <strong>固态电池量产元年：</strong>比亚迪、广汽、宁德时代等技术突破密集落地，中国有望领跑全球
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--success);">●</span>
+                            <strong>储能需求爆发：</strong>Q1出货同比+139%，AI算力+电网安全+市场化三大驱动力明确
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--success);">●</span>
+                            <strong>出口市场多元化：</strong>中东欧、澳大利亚等新兴市场高速增长，对冲欧美壁垒
+                        </li>
+                        <li style="padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--success);">●</span>
+                            <strong>行业盈利修复：</strong>涨价+集中度提升，头部企业盈利改善，"反内卷"成效显现
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: var(--danger); margin-bottom: 15px;">⚠️ 挑战</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--danger);">●</span>
+                            <strong>国内需求承压：</strong>Q1动力电池装车量五年来首次下滑，购置税减半政策影响中低端市场
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--danger);">●</span>
+                            <strong>成本压力加剧：</strong>印尼镍矿政策收紧，碳酸锂高位震荡，硫酸镍成本飙升132%
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--danger);">●</span>
+                            <strong>欧美绿色壁垒：</strong>欧盟CBAM+电池法规，美国IRA+301关税，合规成本大增
+                        </li>
+                        <li style="padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--danger);">●</span>
+                            <strong>尾部企业出清：</strong>配套企业数较去年同期减少10家，竞争格局加速重塑
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>📊 全球电池产业周报 | Global Battery Industry Weekly</p>
+        <p style="margin-top: 8px;">📅 报告周期：2026年4月20日 - 2026年4月26日</p>
+        <p style="margin-top: 8px; font-size: 0.8rem; color: var(--text-secondary);">
+            ⚠️ 本报告仅供参考，不构成投资建议。数据来源：公开市场信息整理
+        </p>
+    </footer>
+    
+    <script>
+        // 价格走势图表
+        var priceChart = echarts.init(document.getElementById('priceChart'));
+        var priceOption = {
+            title: { text: '碳酸锂价格走势 (万元/吨)', textStyle: { color: '#ffffff', fontSize: 14 }, left: 'center' },
+            tooltip: { trigger: 'axis', backgroundColor: 'rgba(22,27,34,0.95)', borderColor: '#30363d', textStyle: { color: '#fff' } },
+            legend: { data: ['电池级碳酸锂', '工业级碳酸锂'], top: 30, textStyle: { color: '#8b949e' } },
+            grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+            xAxis: { 
+                type: 'category', 
+                boundaryGap: false,
+                data: ['2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04'],
+                axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e' }
+            },
+            yAxis: { 
+                type: 'value', 
+                min: 5, 
+                max: 20,
+                axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e', formatter: '{value}万' },
+                splitLine: { lineStyle: { color: '#30363d', type: 'dashed' } }
+            },
+            series: [
+                {
+                    name: '电池级碳酸锂',
+                    type: 'line',
+                    smooth: true,
+                    data: [6, 8.5, 10, 12, 13.5, 16.5, 17.2],
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0,102,255,0.3)' },
+                            { offset: 1, color: 'rgba(0,102,255,0)' }
+                        ])
+                    },
+                    lineStyle: { color: '#0066ff', width: 2 },
+                    itemStyle: { color: '#0066ff' }
+                },
+                {
+                    name: '工业级碳酸锂',
+                    type: 'line',
+                    smooth: true,
+                    data: [5.99, 7.8, 9, 11, 12.5, 16, 16.9],
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0,204,153,0.3)' },
+                            { offset: 1, color: 'rgba(0,204,153,0)' }
+                        ])
+                    },
+                    lineStyle: { color: '#00cc99', width: 2 },
+                    itemStyle: { color: '#00cc99' }
+                }
+            ]
+        };
+        priceChart.setOption(priceOption);
+        
+        // 市场份额图表
+        var marketChart = echarts.init(document.getElementById('marketChart'));
+        var marketOption = {
+            title: { text: '2026年3月动力电池市场份额', textStyle: { color: '#ffffff', fontSize: 14 }, left: 'center' },
+            tooltip: { trigger: 'item', backgroundColor: 'rgba(22,27,34,0.95)', borderColor: '#30363d', formatter: '{b}: {c}% ({d}%)' },
+            legend: { orient: 'vertical', right: '5%', top: 'center', textStyle: { color: '#8b949e' } },
+            series: [{
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                itemStyle: { borderRadius: 4, borderColor: '#161b22', borderWidth: 2 },
+                label: { show: true, color: '#fff', formatter: '{b}\n{c}%' },
+                data: [
+                    { value: 45.54, name: '宁德时代', itemStyle: { color: '#0066ff' } },
+                    { value: 17.83, name: '比亚迪', itemStyle: { color: '#f59e0b' } },
+                    { value: 6.23, name: '中创新航', itemStyle: { color: '#00cc99' } },
+                    { value: 5.97, name: '国轩高科', itemStyle: { color: '#8b5cf6' } },
+                    { value: 4.86, name: '亿纬锂能', itemStyle: { color: '#ec4899' } },
+                    { value: 3.40, name: 'LG新能源', itemStyle: { color: '#06b6d4' } },
+                    { value: 16.17, name: '其他', itemStyle: { color: '#6b7280' } }
+                ]
+            }]
+        };
+        marketChart.setOption(marketOption);
+        
+        // 储能市场图表
+        var storageChart = echarts.init(document.getElementById('storageChart'));
+        var storageOption = {
+            title: { text: '中国储能电池季度出货量 (GWh)', textStyle: { color: '#ffffff', fontSize: 14 }, left: 'center' },
+            tooltip: { trigger: 'axis', backgroundColor: 'rgba(22,27,34,0.95)', borderColor: '#30363d', textStyle: { color: '#fff' } },
+            grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+            xAxis: { 
+                type: 'category', 
+                data: ['2025Q1', '2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e' }
+            },
+            yAxis: { 
+                type: 'value',
+                axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e' },
+                splitLine: { lineStyle: { color: '#30363d', type: 'dashed' } }
+            },
+            series: [{
+                type: 'bar',
+                data: [
+                    { value: 50, itemStyle: { color: '#6b7280' } },
+                    { value: 80, itemStyle: { color: '#6b7280' } },
+                    { value: 120, itemStyle: { color: '#6b7280' } },
+                    { value: 160, itemStyle: { color: '#6b7280' } },
+                    { value: 215, itemStyle: { color: '#0066ff' } }
+                ],
+                barWidth: '50%',
+                itemStyle: { borderRadius: [4, 4, 0, 0] },
+                label: { show: true, position: 'top', color: '#fff', formatter: '{c}GWh' }
+            }]
+        };
+        storageChart.setOption(storageOption);
+        
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            priceChart.resize();
+            marketChart.resize();
+            storageChart.resize();
+        });
+    </script>
+</body>
+</html>
