@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球汽车行业周报 | 2026年5月10日</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #16213e;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #1f2a44;
+            --bg-card-hover: #283650;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --border-color: rgba(255,255,255,0.08);
+            --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            --gradient-green: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --gradient-red: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%);
+            --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.5; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 16px; }
+
+        /* Header */
+        .header { text-align: center; padding: 40px 16px; background: linear-gradient(180deg, rgba(59,130,246,0.08) 0%, transparent 100%); border-bottom: 1px solid var(--border-color); margin-bottom: 24px; }
+        .header-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card); padding: 6px 14px; border-radius: 20px; font-size: 11px; color: var(--accent-cyan); margin-bottom: 16px; border: 1px solid rgba(6,182,212,0.3); }
+        .header h1 { font-size: 36px; font-weight: 700; background: var(--gradient-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; letter-spacing: -1px; }
+        .header-meta { display: flex; justify-content: center; gap: 20px; color: var(--text-secondary); font-size: 13px; flex-wrap: wrap; }
+        .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+        /* TLDR Section */
+        .tldr { background: var(--bg-card); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; border: 1px solid var(--border-color); }
+        .tldr-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+        .tldr-header h2 { font-size: 16px; font-weight: 600; color: var(--accent-cyan); }
+        .tldr-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+        .tldr-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text-secondary); }
+        .tldr-item::before { content: '📌'; flex-shrink: 0; }
+        .tldr-item.highlight::before { content: '🔥'; }
+        .tldr-item.green::before { content: '🌱'; }
+        .tldr-item.blue::before { content: '📊'; }
+        .tldr-item.orange::before { content: '⚠️'; }
+
+        /* Section Styles */
+        .section { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid var(--border-color); }
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        .section-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .section-icon.blue { background: rgba(59,130,246,0.2); }
+        .section-icon.green { background: rgba(16,185,129,0.2); }
+        .section-icon.orange { background: rgba(245,158,11,0.2); }
+        .section-icon.purple { background: rgba(139,92,246,0.2); }
+        .section-icon.red { background: rgba(239,68,68,0.2); }
+        .section-icon.cyan { background: rgba(6,182,212,0.2); }
+        .section-title { font-size: 18px; font-weight: 600; }
+        .section-badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.1); color: var(--text-muted); }
+
+        /* News Item */
+        .news-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .news-item:last-child { border-bottom: none; }
+        .news-item:hover { background: var(--bg-card-hover); margin: 0 -12px; padding: 16px 12px; border-radius: 8px; }
+        .news-meta { flex-shrink: 0; text-align: center; min-width: 70px; }
+        .news-date { font-size: 11px; color: var(--accent-cyan); font-weight: 600; }
+        .news-source { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+        .news-content { flex: 1; }
+        .news-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; line-height: 1.4; }
+        .news-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+        .news-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; margin-right: 6px; }
+        .tag-hot { background: rgba(239,68,68,0.2); color: var(--accent-red); }
+        .tag-policy { background: rgba(59,130,246,0.2); color: var(--accent-blue); }
+        .tag-market { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+        .tag-tech { background: rgba(139,92,246,0.2); color: var(--accent-purple); }
+        .tag-data { background: rgba(245,158,11,0.2); color: var(--accent-orange); }
+        .source-link { font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+        .source-link a { color: var(--accent-cyan); text-decoration: none; }
+        .source-link a:hover { text-decoration: underline; }
+
+        /* Chart Container */
+        .chart-container { width: 100%; height: 300px; margin: 16px 0; }
+
+        /* Car Grid */
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .car-card { background: var(--bg-secondary); border-radius: 10px; padding: 16px; border: 1px solid var(--border-color); transition: all 0.2s; }
+        .car-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+        .car-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .car-brand { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .car-brand img { width: 24px; height: 24px; object-fit: contain; }
+        .car-name { font-weight: 600; font-size: 14px; }
+        .car-type { font-size: 10px; color: var(--text-muted); }
+        .car-specs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .spec-item { background: var(--bg-card); padding: 4px 8px; border-radius: 4px; font-size: 11px; color: var(--text-secondary); }
+
+        /* OEM Grid */
+        .oem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+        .oem-card { background: var(--bg-secondary); border-radius: 10px; padding: 16px; border: 1px solid var(--border-color); }
+        .oem-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .oem-logo { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .oem-logo img { width: 28px; height: 28px; object-fit: contain; }
+        .oem-name { font-weight: 600; font-size: 15px; }
+        .oem-sales { font-size: 12px; color: var(--text-muted); }
+        .oem-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+        .metric-box { background: var(--bg-card); padding: 10px; border-radius: 6px; text-align: center; }
+        .metric-value { font-size: 18px; font-weight: 700; color: var(--accent-cyan); }
+        .metric-value.up { color: var(--accent-green); }
+        .metric-value.down { color: var(--accent-red); }
+        .metric-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+        /* Supply Chain */
+        .supply-item { display: flex; gap: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 10px; }
+        .supply-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .supply-content { flex: 1; }
+        .supply-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+        .supply-desc { font-size: 12px; color: var(--text-secondary); }
+
+        /* Footer */
+        .footer { text-align: center; padding: 30px 16px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border-color); margin-top: 24px; }
+        .footer-disclaimer { background: var(--bg-card); padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 11px; color: var(--text-muted); text-align: left; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .tldr-list { grid-template-columns: 1fr; }
+            .oem-grid, .car-grid { grid-template-columns: 1fr; }
+            .section { padding: 16px; }
+        }
+
+        /* Source citation */
+        .source-citation { font-size: 10px; color: #d1d5db; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-badge">
+                <span>📋</span>
+                <span>Weekly Report</span>
+                <span>•</span>
+                <span>2026.05.10</span>
+            </div>
+            <h1>全球汽车行业周报</h1>
+            <div class="header-meta">
+                <span>📅 统计周期：2026.05.03 - 05.10</span>
+                <span>📍 覆盖：中国·美国·欧洲·全球</span>
+                <span>🏭 数据来源：乘联会·MarkLines·SNE Research·ACEA</span>
+            </div>
+        </div>
+
+        <!-- TLDR -->
+        <div class="tldr">
+            <div class="tldr-header">
+                <span>📌</span>
+                <h2>核心要点速览</h2>
+            </div>
+            <div class="tldr-list">
+                <div class="tldr-item highlight">
+                    <span><strong>北京车展落幕</strong>：38万㎡规模创全球纪录，181辆首发车亮相，国产新车全面发力</span>
+                </div>
+                <div class="tldr-item blue">
+                    <span><strong>中国新能源渗透率首破60%</strong>：4月零售86万辆，电动化进入全面普及期</span>
+                </div>
+                <div class="tldr-item green">
+                    <span><strong>零跑创纪录</strong>：4月交付71,387辆，同比+73.9%，新势力首个突破7万大关</span>
+                </div>
+                <div class="tldr-item orange">
+                    <span><strong>车价集体调涨</strong>：超15家车企因芯片/锂价上涨官宣涨价，行业告别价格战</span>
+                </div>
+                <div class="tldr-item">
+                    <span><strong>比亚迪海外爆发</strong>：4月出口13.45万辆，同比+70.9%，占总销量比例超40%</span>
+                </div>
+                <div class="tldr-item">
+                    <span><strong>美欧贸易摩擦</strong>：特朗普宣布对欧盟汽车加征25%关税，全球供应链面临重构</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心要闻 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon blue">📰</div>
+                <div>
+                    <h2 class="section-title">核心要闻</h2>
+                </div>
+                <div class="section-badge">TOP NEWS</div>
+            </div>
+            
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月3日</div>
+                    <div class="news-source">北京日报</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-hot">热门</span>
+                        2026北京国际车展落幕：128万人次参观创历史纪录
+                    </h3>
+                    <p class="news-desc">为期10天的北京车展以38万㎡规模刷新全球车展纪录，共吸引128万人次入场，其中海外观众6.5万人次。展出1451辆展车、181辆首发车、71辆概念车。国产新车从百万级旗舰到亲民家用车全覆盖，外媒从"看笑话"变"学经验"，态度180度大转弯。</p>
+                    <div class="source-citation">📋 来源：北京国际汽车展览会官网 | 日期：2026.05.03</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月7日</div>
+                    <div class="news-source">财联社</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-data">数据</span>
+                        中国新能源渗透率首破60%：4月零售86万辆
+                    </h3>
+                    <p class="news-desc">乘联分会数据显示，4月狭义乘用车零售142万辆，新能源零售86万辆，渗透率60.6%，首次突破60%大关。标志着中国车市正式进入"电动主导"时代，从政策驱动转向市场自发选择。碳酸锂价格飙涨至19.7万/吨，芯片涨价300%，推动行业告别价格战。</p>
+                    <div class="source-citation">📋 来源：乘联分会 | 日期：2026.05.07</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月1日</div>
+                    <div class="news-source">零跑官方</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-market">市场</span>
+                        零跑4月交付71,387辆：新势力首个突破7万大关
+                    </h3>
+                    <p class="news-desc">零跑汽车4月交付71,387辆，同比暴涨73.9%，环比增长42.7%，强势刷新品牌单月销量纪录。A10上市首月大定破4万台，D19上市15天订单破1.5万台。创始人朱江明表示产能爬坡是核心挑战，工厂已开启双班生产冲刺。</p>
+                    <div class="source-citation">📋 来源：零跑汽车官方公告 | 日期：2026.05.01</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月1日</div>
+                    <div class="news-source">比亚迪官方</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-market">市场</span>
+                        比亚迪4月销量32万辆：海外13.45万辆同比暴涨71%
+                    </h3>
+                    <p class="news-desc">比亚迪4月总销量32.11万辆，同比下降26%；但海外销量达13.45万辆，首次单月突破13万大关，同比暴涨70.9%，占总销量比例超40%。前4月累计海外销量45.4万辆，接近去年全年海外总量。闪充技术已建5499座站覆盖311城市。</p>
+                    <div class="source-citation">📋 来源：比亚迪产销快报 | 日期：2026.05.01</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月1日</div>
+                    <div class="news-source">MarkLines</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-policy">政策</span>
+                        特朗普宣布对欧盟汽车加征25%关税
+                    </h3>
+                    <p class="news-desc">美国总统特朗普表示，由于欧盟未履行贸易协议，美国将于下周对进口自欧盟的汽车和卡车加征关税，税率从15%提高至25%。欧盟委员会主席冯德莱恩回应称已为"各种情况"做好准备。美欧贸易摩擦升级或倒逼全球汽车供应链重构。</p>
+                    <div class="source-citation">📋 来源：MarkLines | 日期：2026.05.01</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月8日</div>
+                    <div class="news-source">汽车之家</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-tech">技术</span>
+                        超15家车企因芯片/锂价上涨官宣涨价
+                    </h3>
+                    <p class="news-desc">受全球存储芯片涨价180%-300%、碳酸锂价格飙涨125%影响，比亚迪、长安、小米、特斯拉等超15家新能源车企宣布涨价或缩减优惠。岚图卢放表示："如果上游价格继续上涨，整车价格整体上涨是大概率事件。"蔚来李斌建议推动芯片规格标准化降本。</p>
+                    <div class="source-citation">📋 来源：汽车之家 | 日期：2026.05.08</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月7日</div>
+                    <div class="news-source">中国日报</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-data">数据</span>
+                        特斯拉上海工厂4月交付7.9万辆：同比增长36%
+                    </h3>
+                    <p class="news-desc">乘联会数据显示特斯拉上海超级工厂4月交付量达7.9万辆，同比增长36%。Model Y连续三年蝉联全球销冠，累计销量突破400万台。在华已建成超级充电站2600+座、充电桩12000+根，100%覆盖省会城市。</p>
+                    <div class="source-citation">📋 来源：中国日报 | 日期：2026.05.07</div>
+                </div>
+            </div>
+
+            <div class="news-item">
+                <div class="news-meta">
+                    <div class="news-date">5月6日</div>
+                    <div class="news-source">乘联分会</div>
+                </div>
+                <div class="news-content">
+                    <h3 class="news-title">
+                        <span class="news-tag tag-data">数据</span>
+                        乘联会崔东树：中国占世界纯电动车市场份额56%
+                    </h3>
+                    <p class="news-desc">乘联分会秘书长崔东树表示，2026年Q1世界汽车销量达2240万台，新能源汽车453万台。中国占世界纯电动车市场份额56%，插电混动份额占73%。全球电动化格局稳固，中国在纯电与插混赛道双双占据绝对主导地位。</p>
+                    <div class="source-citation">📋 来源：乘联分会 | 日期：2026.05.06</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 市场全景 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon green">📊</div>
+                <div>
+                    <h2 class="section-title">市场全景</h2>
+                </div>
+                <div class="section-badge">MARKET OVERVIEW</div>
+            </div>
+
+            <div id="globalSalesChart" class="chart-container"></div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px;">
+                <div class="metric-box" style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--accent-cyan);">142万</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">中国4月乘用车零售（辆）</div>
+                    <div style="font-size: 10px; color: var(--accent-red); margin-top: 4px;">同比-20%~25%</div>
+                </div>
+                <div class="metric-box" style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--accent-green);">60.6%</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">中国新能源渗透率</div>
+                    <div style="font-size: 10px; color: var(--accent-green); margin-top: 4px;">首次突破60%</div>
+                </div>
+                <div class="metric-box" style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--accent-cyan);">137万</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">美国4月汽车销量（辆）</div>
+                    <div style="font-size: 10px; color: var(--accent-red); margin-top: 4px;">同比-6.7%</div>
+                </div>
+                <div class="metric-box" style="background: var(--bg-secondary); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--accent-cyan);">48万</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">欧洲4月电动车注册（辆）</div>
+                    <div style="font-size: 10px; color: var(--accent-green); margin-top: 4px;">渗透率28.6%</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 16px; background: var(--bg-secondary); border-radius: 8px;">
+                <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--accent-cyan);">📈 区域市场动态</h4>
+                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+                    <p><strong>🇨🇳 中国：</strong>4月乘用车零售142万辆，环比-13.8%，延续一季度低迷；但新能源渗透率首破60%，电动化不可逆。出口成为增长核心引擎，4月主流车企出口均创佳绩。</p>
+                    <p style="margin-top: 10px;"><strong>🇺🇸 美国：</strong>4月销量137万辆，同比-6.7%，连续4个月走跌。联邦电动车税收抵免结束是主因，混动车逆势增长。S&P Global预测2026全年销量1580万辆，同比-3%。</p>
+                    <p style="margin-top: 10px;"><strong>🇪🇺 欧洲：</strong>4月电动车注册48万辆，渗透率28.6%。英国4月同比增长24%，特斯拉在法国、瑞典增长超100%。Q1欧盟纯电市场份额19.4%，同比提升4.2pct。</p>
+                </div>
+            </div>
+            <div class="source-citation">📋 数据来源：乘联分会(2026.05.07)、MarkLines(2026.05.06)、SNE Research(2026.05.07)、ACEA(2026.04.23)</div>
+        </div>
+
+        <!-- 新车情报局 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon orange">🚗</div>
+                <div>
+                    <h2 class="section-title">新车情报局</h2>
+                </div>
+                <div class="section-badge">NEW CAR INTEL</div>
+            </div>
+
+            <h4 style="font-size: 14px; color: var(--accent-cyan); margin-bottom: 12px;">🔋 纯电动车型 (BEV)</h4>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:nio.svg" alt="蔚来" onerror="this.parentElement.innerHTML='N'">
+                        </div>
+                        <div>
+                            <div class="car-name">蔚来 ES9</div>
+                            <div class="car-type">全尺寸旗舰SUV | 预售价52.8万起</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">北京车展首发，5月27日上市。5365mm车长，全球首颗5nm智驾芯片神玑NX9031，31个感知硬件含3颗激光雷达，天行智能底盘支持爆胎300ms修正。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">纯电旗舰</span>
+                        <span class="spec-item">5nm芯片</span>
+                        <span class="spec-item">激光雷达×3</span>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:xiaomi.svg" alt="小米" onerror="this.parentElement.innerHTML='X'">
+                        </div>
+                        <div>
+                            <div class="car-name">小米 YU7</div>
+                            <div class="car-type">豪华高性能SUV | 25.35万起</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">延续家族设计，1:3头身比+宽体低趴姿态。3.11㎡蚌式铝机盖，0.245超低风阻。22°上翘鸭尾+镂空扰流板，宝石绿配色三套色罐工艺。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">0.245风阻</span>
+                        <span class="spec-item">豪华SUV</span>
+                        <span class="spec-item">御风设计</span>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:byd.svg" alt="比亚迪" onerror="this.parentElement.innerHTML='B'">
+                        </div>
+                        <div>
+                            <div class="car-name">比亚迪 大唐</div>
+                            <div class="car-type">D级全尺寸旗舰SUV</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">5263mm车长+3130mm轴距，2+2+3七座布局。纯电版1000V高压架构，5分钟闪充400km，CLTC续航最高950km；插混版综合续航超2000km。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">1000V架构</span>
+                        <span class="spec-item">5分钟闪充</span>
+                        <span class="spec-item">续航950km</span>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:xpeng.svg" alt="小鹏" onerror="this.parentElement.innerHTML='X'">
+                        </div>
+                        <div>
+                            <div class="car-name">小鹏 GX</div>
+                            <div class="car-type">六座大空间SUV | 20万级</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">5.2米车长+3.1米轴距，六座大空间。搭载双5nm自研芯片+896线激光雷达，华为乾昆ADS 5.0智驾，支持城市NOA零接管率超99%。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">城市NOA</span>
+                        <span class="spec-item">双5nm芯片</span>
+                        <span class="spec-item">896线激光</span>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="font-size: 14px; color: var(--accent-green); margin: 20px 0 12px;">🔌 插电混动车型 (PHEV)</h4>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:volkswagen.svg" alt="大众" onerror="this.parentElement.innerHTML='V'">
+                        </div>
+                        <div>
+                            <div class="car-name">大众 ID.ERA 5S</div>
+                            <div class="car-type">插混轿车 | 20-25万区间</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">CLTC综合续航超2000km，亏电油耗2.82L/100km。全系标配城市NOA，合资品牌首款。大众放下身段针对中国市场做出最激进调整。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">续航2000km</span>
+                        <span class="spec-item">亏电2.82L</span>
+                        <span class="spec-item">标配城市NOA</span>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:stellantis.svg" alt="智界" onerror="this.parentElement.innerHTML='H'">
+                        </div>
+                        <div>
+                            <div class="car-name">智界 V9</div>
+                            <div class="car-type">旗舰MPV | 50万级</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">5359×2009×1879mm超大尺寸，3250mm超长轴距。鸿蒙座舱四音区语音控制，二排零重力座椅支持45°迎宾旋转+90°会议模式+180°亲子互动。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">鸿蒙座舱</span>
+                        <span class="spec-item">移动头等舱</span>
+                        <span class="spec-item">50万级</span>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="font-size: 14px; color: var(--accent-purple); margin: 20px 0 12px;">🏎️ 性能超跑</h4>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:byd.svg" alt="仰望" onerror="this.parentElement.innerHTML='Y'">
+                        </div>
+                        <div>
+                            <div class="car-name">仰望 U9X 破晓版</div>
+                            <div class="car-type">2000万级超跑 | 全球限量30台</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">黑金色车身融入大漆打磨工艺，东方美学与超跑融合。四电机独立驱动，综合最大功率超1300马力，零百加速1.9秒，纽博格林北环6分59秒157。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">1300马力</span>
+                        <span class="spec-item">1.9秒破百</span>
+                        <span class="spec-item">限量30台</span>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-header">
+                        <div class="car-brand">
+                            <img src="https://api.iconify.design/simple-icons:byd.svg" alt="腾势" onerror="this.parentElement.innerHTML='D'">
+                        </div>
+                        <div>
+                            <div class="car-name">腾势 Z 敞篷版</div>
+                            <div class="car-type">性能敞篷 | 综合功率1000马力+</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">北京车展全球首秀，综合功率超过1000马力，百公里加速时间控制在2秒以内。"速度与激情"体验感拉满，围观人群不时爆发惊叹。</p>
+                    <div class="car-specs">
+                        <span class="spec-item">1000马力+</span>
+                        <span class="spec-item">2秒内破百</span>
+                        <span class="spec-item">敞篷设计</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 车企动态 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon purple">🏭</div>
+                <div>
+                    <h2 class="section-title">车企动态</h2>
+                </div>
+                <div class="section-badge">OEM UPDATE</div>
+            </div>
+
+            <div class="oem-grid">
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:byd.svg" alt="BYD" onerror="this.parentElement.innerHTML='B'">
+                        </div>
+                        <div>
+                            <div class="oem-name">比亚迪</div>
+                            <div class="oem-sales">4月销量：32.11万辆 | 同比-26%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value down">-26%</div>
+                            <div class="metric-label">国内同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value up">+70.9%</div>
+                            <div class="metric-label">海外同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">13.45万</div>
+                            <div class="metric-label">4月出口</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">45.4万</div>
+                            <div class="metric-label">1-4月海外</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">天神之眼B选装包5月1日起从9900元涨至12000元。闪充站已建5499座覆盖311城市，年底目标2万座。</p>
+                </div>
+
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:tesla.svg" alt="Tesla" onerror="this.parentElement.innerHTML='T'">
+                        </div>
+                        <div>
+                            <div class="oem-name">特斯拉</div>
+                            <div class="oem-sales">上海工厂4月交付：7.9万辆 | 同比+36%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value up">+36%</div>
+                            <div class="metric-label">交付同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value up">+26.7%</div>
+                            <div class="metric-label">1-4月累计同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">29.3万</div>
+                            <div class="metric-label">1-4月累计</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">400万+</div>
+                            <div class="metric-label">Model Y累计</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">Model Y连续三年蝉联全球销冠。在华超充站2600+座，充电桩12000+根，100%覆盖省会城市。</p>
+                </div>
+
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:leapmotor.svg" alt="Leapmotor" onerror="this.parentElement.innerHTML='L'">
+                        </div>
+                        <div>
+                            <div class="oem-name">零跑汽车</div>
+                            <div class="oem-sales">4月交付：71,387辆 | 同比+73.9%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value up">+73.9%</div>
+                            <div class="metric-label">同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value up">+42.7%</div>
+                            <div class="metric-label">环比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">18.2万</div>
+                            <div class="metric-label">1-4月累计</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">105万</div>
+                            <div class="metric-label">全年目标</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">新势力首个突破7万大关。A10上市首月大定4万台，D19上市15天订单1.5万台。5月全系综合权益至高56,680元。</p>
+                </div>
+
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:ideal.svg" alt="Li Auto" onerror="this.parentElement.innerHTML='L'">
+                        </div>
+                        <div>
+                            <div class="oem-name">理想汽车</div>
+                            <div class="oem-sales">4月交付：34,085辆 | 同比+0.43%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">+0.4%</div>
+                            <div class="metric-label">同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value down">-17%</div>
+                            <div class="metric-label">环比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">产品迭代</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">5月15日</div>
+                            <div class="metric-label">L9上市</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">增程L系列长期未换代影响表现。新一代L9 Livis将于5月15日上市并开启交付，有望强势反弹。</p>
+                </div>
+
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:nio.svg" alt="NIO" onerror="this.parentElement.innerHTML='N'">
+                        </div>
+                        <div>
+                            <div class="oem-name">蔚来汽车</div>
+                            <div class="oem-sales">4月交付：29,356辆 | 同比+22.8%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value up">+22.8%</div>
+                            <div class="metric-label">同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-box" style="background: var(--bg-card); padding: 6px; border-radius: 4px;">
+                                <div style="font-size: 12px; font-weight: 600;">1.9万/0.5万/0.5万</div>
+                                <div class="metric-label">蔚来/乐道/萤火虫</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">三品牌战略全面推进。ES9预售价52.8万起5月27日上市，乐道L80于5月15日上市，ES8创40万+最快10万交付纪录。</p>
+                </div>
+
+                <div class="oem-card">
+                    <div class="oem-header">
+                        <div class="oem-logo">
+                            <img src="https://api.iconify.design/simple-icons:xiaomi.svg" alt="Xiaomi" onerror="this.parentElement.innerHTML='X'">
+                        </div>
+                        <div>
+                            <div class="oem-name">小米汽车</div>
+                            <div class="oem-sales">4月交付：3万+辆 | 环比+50%</div>
+                        </div>
+                    </div>
+                    <div class="oem-metrics">
+                        <div class="metric-box">
+                            <div class="metric-value up">+50%</div>
+                            <div class="metric-label">环比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value up">+12%</div>
+                            <div class="metric-label">1-4月同比</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">10.9万</div>
+                            <div class="metric-label">1-4月累计</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">6万+</div>
+                            <div class="metric-label">新SU7锁单</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">新一代SU7产能爬坡顺利。YU7 GT将于5月底发布，2026全年目标55万辆。</p>
+                </div>
+            </div>
+
+            <h4 style="font-size: 14px; color: var(--accent-cyan); margin: 20px 0 12px;">📋 4月新势力交付排行榜</h4>
+            <div style="background: var(--bg-secondary); border-radius: 8px; overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead style="background: var(--bg-card);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; color: var(--text-muted);">排名</th>
+                            <th style="padding: 12px; text-align: left; color: var(--text-muted);">品牌</th>
+                            <th style="padding: 12px; text-align: right; color: var(--text-muted);">4月交付</th>
+                            <th style="padding: 12px; text-align: right; color: var(--text-muted);">同比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-top: 1px solid var(--border-color);">
+                            <td style="padding: 12px; color: var(--accent-cyan); font-weight: 600;">1</td>
+                            <td style="padding: 12px;">零跑</td>
+                            <td style="padding: 12px; text-align: right; font-weight: 600;">71,387辆</td>
+                            <td style="padding: 12px; text-align: right; color: var(--accent-green);">+73.9%</td>
+                        </tr>
+                        <tr style="border-top: 1px solid var(--border-color);">
+                            <td style="padding: 12px; color: var(--text-secondary);">2</td>
+                            <td style="padding: 12px;">理想</td>
+                            <td style="padding: 12px; text-align: right; font-weight: 600;">34,085辆</td>
+                            <td style="padding: 12px; text-align: right; color: var(--text-secondary);">+0.4%</td>
+                        </tr>
+                        <tr style="border-top: 1px solid var(--border-color);">
+                            <td style="padding: 12px; color: var(--text-secondary);">3</td>
+                            <td style="padding: 12px;">极氪</td>
+                            <td style="padding: 12px; text-align: right; font-weight: 600;">31,787辆</td>
+                            <td style="padding: 12px; text-align: right; color: var(--accent-green);">+132%</td>
+                        </tr>
+                        <tr style="border-top: 1px solid var(--border-color);">
+                            <td style="padding: 12px; color: var(--text-secondary);">4</td>
+                            <td style="padding: 12px;">小鹏</td>
+                            <td style="padding: 12px; text-align: right; font-weight: 600;">31,011辆</td>
+                            <td style="padding: 12px; text-align: right; color: var(--accent-red);">-11.5%</td>
+                        </tr>
+                        <tr style="border-top: 1px solid var(--border-color);">
+                            <td style="padding: 12px; color: var(--text-secondary);">5</td>
+                            <td style="padding: 12px;">小米</td>
+                            <td style="padding: 12px; text-align: right; font-weight: 600;">30,000辆</td>
+                            <td style="padding: 12px; text-align: right; color: var(--accent-green);">+50%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 零部件与供应链 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon red">⚙️</div>
+                <div>
+                    <h2 class="section-title">零部件与供应链</h2>
+                </div>
+                <div class="section-badge">SUPPLY CHAIN</div>
+            </div>
+
+            <div class="supply-item">
+                <div class="supply-icon" style="background: rgba(239,68,68,0.2);">
+                    <span>🔋</span>
+                </div>
+                <div class="supply-content">
+                    <div class="supply-title">碳酸锂价格飙涨125%，电池成本承压</div>
+                    <div class="supply-desc">电池级碳酸锂均价从2025年7月的7.5万元/吨飙升至2026年3月的17.19万元/吨，涨幅超125%。5月6日主力期货合约触达19.7万元/吨再创阶段新高。分析师指出5-6月国内锂矿原料供应偏紧已成定局，行业将从累库转向去库。蔚来李斌表示电池占智能电动车成本超50%，"处于失控状态"。</div>
+                </div>
+            </div>
+
+            <div class="supply-item">
+                <div class="supply-icon" style="background: rgba(245,158,11,0.2);">
+                    <span>💾</span>
+                </div>
+                <div class="supply-content">
+                    <div class="supply-title">车规级存储芯片涨价180%-300%，供应满足率不足50%</div>
+                    <div class="supply-desc">近三个月车规级DRAM整体涨价180%，DDR5涨幅达300%。TrendForce预测本轮DRAM涨价将延续至2027年。理想汽车供应链副总裁孟庆鹏预警，2026年汽车行业存储芯片供应满足率可能不足50%。蔚来、岚图等企业高端车型芯片成本上涨达3000-5000元。</div>
+                </div>
+            </div>
+
+            <div class="supply-item">
+                <div class="supply-icon" style="background: rgba(16,185,129,0.2);">
+                    <span>🔩</span>
+                </div>
+                <div class="supply-content">
+                    <div class="supply-title">轮胎行业第二轮涨价，70+企业发调价函</div>
+                    <div class="supply-desc">4月中旬以来国内轮胎行业迎来年内第二轮集体涨价潮，70+企业正式发布涨价函。天然橡胶主产区干旱导致产量受限，合成橡胶受国际原油暴涨带动部分品种价格翻倍，炭黑等化工原料受环保限产影响单月涨幅达13%，3月全钢胎生产成本较1月涨幅接近7%。</div>
+                </div>
+            </div>
+
+            <div class="supply-item">
+                <div class="supply-icon" style="background: rgba(139,92,246,0.2);">
+                    <span>⚡</span>
+                </div>
+                <div class="supply-content">
+                    <div class="supply-title">铜铝价格高位运行，单车原材料成本增加约1800元</div>
+                    <div class="supply-desc">LME铜价维持约13000美元/吨高位，铝价突破2.5万元/吨。造一辆中型电动车需200公斤铝和80公斤铜，仅这两项原材料就给单车成本增加约1800元。AI基础设施建设持续推高铜需求。</div>
+                </div>
+            </div>
+
+            <div class="supply-item">
+                <div class="supply-icon" style="background: rgba(6,182,212,0.2);">
+                    <span>🏭</span>
+                </div>
+                <div class="supply-content">
+                    <div class="supply-title">大众VCTC获完全自主立项权，研发权力下放加速</div>
+                    <div class="supply-desc">大众在合肥设立的VCTC研发中心获得完全自主立项权，3000余名本土工程师无需等待总部逐项审批，可直接启动新车型开发。CEA电子电气架构18个月落地，将于2027年前覆盖大众品牌全系车型，开发周期缩短30%。宝马沈阳研发中心升级为全球大型研发基地，新世代iX3上70%源代码由中国团队编写。</div>
+                </div>
+            </div>
+
+            <h4 style="font-size: 14px; color: var(--accent-orange); margin: 16px 0 12px;">⚠️ 供应链风险提示</h4>
+            <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 16px;">
+                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
+                    <strong style="color: var(--accent-orange);">存储芯片：</strong>供需缺口持续扩大，年内价格将延续上涨态势，瑞银警告可能最终导致全球汽车产量下滑。<br>
+                    <strong style="color: var(--accent-orange);">碳酸锂：</strong>5-6月原料供应偏紧，涨价趋势延续。<br>
+                    <strong style="color: var(--accent-orange);"> Tire1压力：</strong>零部件企业正面临成本上涨与整车厂压价的双重压力，产业利润分配失衡加剧。
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📋 数据来源：乘联分会 | MarkLines | SNE Research | ACEA | 各车企官方公告</p>
+            <p style="margin-top: 8px;">🔗 交叉验证来源：财联社 | 汽车之家 | 盖世汽车 | CnEVPost | Reuters</p>
+            <div class="footer-disclaimer">
+                <strong>免责声明：</strong>本报告数据均来自公开渠道，仅供参考。销量数据口径可能因统计来源不同而存在差异（批发/零售/上险）。所有预测性陈述均基于当前市场环境，实际情况可能发生变化。投资决策请咨询专业人士。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global Sales Chart
+        var chartDom = document.getElementById('globalSalesChart');
+        var myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
+        
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                backgroundColor: 'rgba(31, 42, 68, 0.95)',
+                borderColor: 'rgba(255,255,255,0.1)',
+                textStyle: { color: '#f1f5f9' }
+            },
+            legend: {
+                data: ['中国', '欧洲', '美国', '其他'],
+                textStyle: { color: '#94a3b8' },
+                top: 0
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2026年1月', '2月', '3月', '4月'],
+                axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+                axisLabel: { color: '#94a3b8' }
+            },
+            yAxis: {
+                type: 'value',
+                name: '万辆',
+                axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+                axisLabel: { color: '#94a3b8' },
+                splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
+            },
+            series: [
+                {
+                    name: '中国',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [208.8, 142.0, 182.0, 142.0],
+                    itemStyle: { color: '#ef4444' },
+                    emphasis: { focus: 'series' }
+                },
+                {
+                    name: '欧洲',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [115.0, 115.0, 115.0, 115.0],
+                    itemStyle: { color: '#3b82f6' },
+                    emphasis: { focus: 'series' }
+                },
+                {
+                    name: '美国',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [25.1, 25.1, 25.1, 25.1],
+                    itemStyle: { color: '#10b981' },
+                    emphasis: { focus: 'series' }
+                },
+                {
+                    name: '其他',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [62.5, 62.5, 62.5, 62.5],
+                    itemStyle: { color: '#8b5cf6' },
+                    emphasis: { focus: 'series' }
+                }
+            ]
+        };
+        
+        myChart.setOption(option);
+        
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+    </script>
+</body>
+</html>
