@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球电池产业周报 | 2026年6月第2期</title>
+    <style>
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a5a;
+            --accent-blue: #0066cc;
+            --accent-green: #00a86b;
+            --accent-orange: #ff8c00;
+            --accent-red: #e63946;
+            --border-color: #e0e0e0;
+            --icon-color: #333333;
+            --tag-bg: #e8f4ff;
+            --tag-text: #0066cc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: white; padding: 40px 30px; border-radius: 16px; margin-bottom: 30px;
+            position: relative; overflow: hidden;
+        }
+        .header::before {
+            content: ''; position: absolute; top: -50%; right: -20%; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(0,102,204,0.15) 0%, transparent 70%); pointer-events: none;
+        }
+        .header-badge {
+            display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15);
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; margin-bottom: 16px; backdrop-filter: blur(10px);
+        }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .header-subtitle { font-size: 15px; opacity: 0.85; margin-bottom: 20px; }
+        .header-meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 13px; opacity: 0.75; }
+        .header-meta span { display: flex; align-items: center; gap: 6px; }
+        .summary-card {
+            background: var(--bg-card); border-radius: 16px; padding: 28px; margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
+        }
+        .summary-card h2 { font-size: 18px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+        .summary-points { display: grid; gap: 14px; }
+        .summary-point {
+            display: flex; gap: 12px; font-size: 14px; color: var(--text-secondary);
+            padding: 14px 16px; background: var(--bg-primary); border-radius: 10px; border-left: 3px solid var(--accent-blue);
+        }
+        .summary-point .bullet { width: 6px; height: 6px; background: var(--accent-blue); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+        .section {
+            background: var(--bg-card); border-radius: 16px; padding: 28px; margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
+        }
+        .section-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 22px;
+            padding-bottom: 16px; border-bottom: 2px solid var(--bg-primary);
+        }
+        .section-header h2 { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+        .section-tag {
+            margin-left: auto; background: var(--tag-bg); color: var(--tag-text);
+            padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500;
+        }
+        .news-item { padding: 20px 0; border-bottom: 1px solid var(--bg-primary); }
+        .news-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .news-item:first-child { padding-top: 0; }
+        .news-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+        .news-icon {
+            width: 40px; height: 40px; border-radius: 10px; background: var(--bg-primary);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .news-icon img { width: 28px; height: 28px; object-fit: contain; }
+        .news-title-wrap { flex: 1; }
+        .news-title { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-bottom: 4px; }
+        .news-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: #888; }
+        .news-meta .tag { background: #f0f0f5; padding: 3px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; }
+        .news-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; padding-left: 54px; }
+        .source-link { color: var(--accent-blue); text-decoration: none; font-size: 12px; }
+        .source-link:hover { text-decoration: underline; }
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+        .data-card {
+            background: var(--bg-primary); border-radius: 12px; padding: 18px; text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .data-card .label { font-size: 12px; color: #888; margin-bottom: 6px; }
+        .data-card .value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+        .data-card .unit { font-size: 12px; color: #888; margin-top: 2px; }
+        .data-card .change { font-size: 12px; margin-top: 4px; }
+        .change.up { color: var(--accent-green); }
+        .change.down { color: var(--accent-red); }
+        .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+        .company-card {
+            background: var(--bg-primary); border-radius: 12px; padding: 18px;
+            border: 1px solid var(--border-color); display: flex; gap: 14px; align-items: flex-start;
+        }
+        .company-card img { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; }
+        .company-card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .company-card .detail { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+        .flag-icon { width: 24px; height: 16px; object-fit: cover; border-radius: 2px; vertical-align: middle; }
+        .price-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+        .price-table th { background: var(--bg-primary); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); }
+        .price-table td { padding: 10px 14px; border-bottom: 1px solid var(--bg-primary); }
+        .price-table tr:hover { background: var(--bg-primary); }
+        .highlight { color: var(--accent-green); font-weight: 600; }
+        .highlight-red { color: var(--accent-red); font-weight: 600; }
+        .footer {
+            text-align: center; padding: 30px; color: #999; font-size: 12px; margin-top: 20px;
+        }
+        .policy-item { padding: 16px 0; border-bottom: 1px solid var(--bg-primary); }
+        .policy-item:last-child { border-bottom: none; }
+        .policy-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+        .policy-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 18px; }
+            .header h1 { font-size: 22px; }
+            .section { padding: 18px; }
+            .summary-card { padding: 18px; }
+            .news-desc { padding-left: 0; }
+            .data-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .company-grid { grid-template-columns: 1fr; }
+            .price-table { font-size: 12px; }
+            .price-table th, .price-table td { padding: 8px 6px; }
+        }
+        @media (max-width: 480px) {
+            .data-grid { grid-template-columns: 1fr 1fr; }
+            .data-card .value { font-size: 18px; }
+            .header-meta { gap: 10px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+    <div class="header-badge">⚡ 全球电池产业周报</div>
+    <h1>全球电池产业周报</h1>
+    <div class="header-subtitle">2026年6月第2期（6月8日—6月14日）</div>
+    <div class="header-meta">
+        <span>📅 2026.06.08 — 2026.06.14</span>
+        <span>🌍 全球视野</span>
+        <span>🔋 动力 + 储能双轮驱动</span>
+    </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-card">
+    <h2>📋 本周核心摘要</h2>
+    <div class="summary-points">
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>美国国防部更新CMC清单，比亚迪、亿纬锂能、中创新航新入列，宁德时代继续保留；中方强烈反对，企业声明不影响正常经营</div>
+        </div>
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>宁德时代两天锁定77万吨电解液长协（永太科技47万吨+新宙邦30万吨），对应可支撑640-960GWh锂电池产能</div>
+        </div>
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>天齐锂业控股泰利森格林布什矿第三期产线检修期间发生火情；宁德时代枧下窝锂矿用地预审注销发酵</div>
+        </div>
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>5月中国动力电池装车71.9GWh同比+25.9%，宁德时代市占率47%同比+4.3pp；储能电池出口9.2GWh同比+66.2%</div>
+        </div>
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>韩国三大电池商（LGES/三星SDI/SK On）全面转向ESS+LFP，下半年产线转换加速；通用汽车联手Peak Energy开发钠电储能</div>
+        </div>
+        <div class="summary-point">
+            <div class="bullet"></div>
+            <div>动力电池新国标7月1日实施，"不起火、不爆炸"成为强制性要求，行业集中度有望进一步提升</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 1: Core News -->
+<div class="section">
+    <div class="section-header">
+        <h2>📰 核心要闻</h2>
+        <span class="section-tag">6月8日—14日</span>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/us.png" alt="US"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">美国更新CMC军工清单，比亚迪/亿纬锂能/中创新航新入列</div>
+                <div class="news-meta">
+                    <span class="tag">🇺🇸 华盛顿</span>
+                    <span class="tag">6月8日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            当地时间6月8日，美国国防部发布最新"中国军事企业清单"（CMC），本次新纳入比亚迪、亿纬锂能、中创新航、晶澳科技、天合光能、京东方等企业，宁德时代继续保留。清单扩至188家（2025年为134家）。外交部及中国驻美大使馆强烈谴责，比亚迪港交所公告称"列入名单并无正当理由，不会影响正常业务"。该清单非制裁名单，仅限制美国军方采购合作，上榜企业日常经营不受实质冲击。
+            <br><a class="source-link" href="https://finance.sina.com.cn/roll/2026-06-10/doc-iniaxkrq2708278.shtml" target="_blank">📋 新浪财经</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">宁德时代2天签订77万吨电解液大单，行业格局重塑</div>
+                <div class="news-meta">
+                    <span class="tag">🇨🇳 福建</span>
+                    <span class="tag">6月7日—8日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            6月7日，新宙邦公告与宁德时代签订2026-2028年合计30万吨电解液供应协议（5万吨/10万吨/15万吨）；6月8日，永太科技公告全资子公司与宁德时代签订2026-2028年合计47万吨电解液合作协议。两大单合计77万吨，对应可支撑640-960GWh锂电池产能，订单总规模超215亿元。此举打破天赐材料此前电解液"一家独大"格局，行业马太效应加剧。
+            <br><a class="source-link" href="https://m.weibo.cn/detail/5307865778620503" target="_blank">📋 界面新闻</a> · <a class="source-link" href="https://m.ebrun.com/680243.html" target="_blank">📋 亿邦动力</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/au.png" alt="AU"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">泰利森格林布什矿第三期产线检修期间发生火情</div>
+                <div class="news-meta">
+                    <span class="tag">🇦🇺 西澳</span>
+                    <span class="tag">6月9日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            天齐锂业控股子公司泰利森位于澳大利亚的第三期化学级锂精矿工厂在检修期间发生局部火情，火情已被扑灭，无人员受伤，个别设备受损但主要产线未受影响。该产线设计年产能52万吨锂精矿，2025年12月投料试车，原计划年内完成产能爬坡。格林布什矿产量占全球锂资源项目2025年总产量的9.3%。消息刺激碳酸锂期货6月9日涨超3%。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650362064816308751/" target="_blank">📋 电池网</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">宁德时代枧下窝锂矿用地预审注销，300亿元时代资源集团加速上游渗透</div>
+                <div class="news-meta">
+                    <span class="tag">🇨🇳 江西</span>
+                    <span class="tag">6月</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            宁德时代枧下窝锂矿项目用地预审与选址意见书被注销，整个项目后续用地流程需重新办理。该矿采矿规模3000万吨/年，对应碳酸锂年产能约10万吨。4月宁德时代宣布拟出资300亿元设立时代资源集团，聚焦全球锂、镍、钴等关键矿产资源勘探开发。叠加宜春锂云母矿停产换证进展缓慢，国内锂矿供应端扰动持续。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650362064816308751/" target="_blank">📋 电池网</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/us.png" alt="US"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">通用汽车联手Peak Energy开发钠离子电池储能系统</div>
+                <div class="news-meta">
+                    <span class="tag">🇺🇸 底特律</span>
+                    <span class="tag">6月10日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            通用汽车与美国电网储能企业Peak Energy宣布共同开发专为电网储能打造的下一代钠离子电池电芯，旨在联合生产大容量、低成本产品，为数据中心与电网提供储能供电，并试图构建北美本土供应链。这是美国汽车巨头首次大举入局钠电池储能赛道。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650412787599983158/" target="_blank">📋 和讯网</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/fi.png" alt="FI"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">Donut Lab"钠离子固态电池"被曝实为普通锂电池，融资2500万美元涉造假</div>
+                <div class="news-meta">
+                    <span class="tag">🇫🇮 芬兰</span>
+                    <span class="tag">6月10日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            曾在CES 2026上以"5分钟充电、10万次循环、400Wh/kg"震惊行业的芬兰初创企业Donut Lab，经20余位独立电池专家调查，其宣称的"钠离子固态电池"实际为普通高镍NCM锂离子电池。VTT测试数据电压曲线稳定在3.7-3.8V（钠离子体系特征不符），且出现石墨负极特征。400Wh/kg能量密度和10万次循环从未获独立验证。公司已从1300多名投资者手中募集约2500万美元，估值一度达12.5亿美元。芬兰金融监管机构已介入。
+            <br><a class="source-link" href="http://news.qq.com/rain/a/20260610A02XVT00" target="_blank">📋 腾讯新闻</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">宁德时代钠电池9月交付首批储能系统，2026全年GWh级出货</div>
+                <div class="news-meta">
+                    <span class="tag">🇨🇳 中国</span>
+                    <span class="tag">6月</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            宁德时代披露钠离子电池最新进展：计划今年9月正式交付首批钠电储能系统，全年出货量达GWh级别。1月已发布轻商用车钠电池，-20℃可用电量保持率>92%；储能端与海博思创签60GWh/3年订单。钠电池电芯0.35-0.40元/Wh，2027年有望全面低于磷酸铁锂，"钠锂并行"格局确立。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650412787599983158/" target="_blank">📋 和讯网</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">厦门实证储能科技研究院揭牌，全球规模最大储能检测平台</div>
+                <div class="news-meta">
+                    <span class="tag">🇨🇳 厦门</span>
+                    <span class="tag">6月1日</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-desc">
+            厦门市政府与宁德时代共建的厦门实证储能科技研究院正式揭牌，总占地150亩、总投资约30亿元，是目前全球规模最大、检测能力最完整的储能系统全场景一站式检测与实证平台。已与TÜV南德、TÜV莱茵、CSA等全球主流认证机构合作。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7649697021481271817/" target="_blank">📋 储能网</a>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: Technology -->
+<div class="section">
+    <div class="section-header">
+        <h2>🔬 电池产品与技术</h2>
+        <span class="section-tag">技术突破</span>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">宁德时代固态电池路线：2027年小批量试制，2028年小规模量产</div>
+                <div class="news-meta"><span class="tag">硫化物路线</span></div>
+            </div>
+        </div>
+        <div class="news-desc">
+            宁德时代明确硫化物全固态电池规划：已展示480Wh/kg全固态电池原型，2027年小批量试制，2028年小规模量产，2030年前后规模化生产。通过含氟锂盐正极表面包覆攻克硫化物/正极界面副反应，60℃循环200次容量保持率>90%。同时第三代神行超充电池实现6分27秒充至98%（等效10C/峰值15C），麒麟凝聚态电池达350Wh/kg能量密度。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650804738748858907/" target="_blank">📋 闽闽</a> · <a class="source-link" href="https://m.weibo.cn/detail/5309363679920301" target="_blank">📋 微博</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/cn.png" alt="CN"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">中国团队突破钠电池快充瓶颈：4分钟充电+6000小时稳定运行</div>
+                <div class="news-meta"><span class="tag">钠离子</span><span class="tag">Nano-Micro Letters</span></div>
+            </div>
+        </div>
+        <div class="news-desc">
+            东南大学、HiNa Battery、扬州大学联合开发新型准固态电解质（Sn-FB QSE），钠离子迁移数达0.94（接近理论极限），实现约4分钟超快充，2000次高速循环后容量保持率90%。对称电池稳定运行超6000小时。研究成果发表于Nano-Micro Letters，技术兼容现有制造工艺。
+            <br><a class="source-link" href="https://www.xataka.com.br/informatica/china-anuncia-avanco-em-baterias-sodio-recarga-em-quatro-minutos-e-mais-6-mil-horas-estabilidade" target="_blank">📋 Xataka</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/cn.png" alt="CN"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">硫化物固态电池材料成本骤降86%，头部企业百吨级中试产线落地</div>
+                <div class="news-meta"><span class="tag">固态电池</span><span class="tag">6月</span></div>
+            </div>
+        </div>
+        <div class="news-desc">
+            宁波东方理工孙学良团队实现低成本Li₂S合成，将硫化物电解质成本降低86%-88.5%（Angew. Chem. Int. Ed.）。天赐材料硫化物固态电解质处于公斤级中试+下游送样验证，百吨级中试线2026年Q3建成；天齐锂业50吨/年高纯硫化锂中试项目已动工；天华新能高纯硫化锂持续送样。东风新一代氧化物-聚合物复合固态电池下半年量产，示范车队安全行驶>320万公里。
+            <br><a class="source-link" href="https://news.metal.com/newscontent/103950529-Solid-State-Battery-Weekly-Update-June-5%E2%80%9311-2026" target="_blank">📋 SMM</a> · <a class="source-link" href="https://m.weibo.cn/detail/5309363679920301" target="_blank">📋 微博</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon"><img src="https://flagcdn.com/w320/jp.png" alt="JP"></div>
+            <div class="news-title-wrap">
+                <div class="news-title">Maxell耐热全固态电池入选JAXA太空项目；英日合作固态锂硫电池</div>
+                <div class="news-meta"><span class="tag">海外进展</span></div>
+            </div>
+        </div>
+        <div class="news-desc">
+            日本Maxell耐热全固态电池被JAXA选入STEPS计划，将在小型卫星平台验证。Gelion与日产、牛津大学启动3年CoRe-SoLiS固态锂硫项目，总投入3400万英镑（英国Innovate资助2400万），引入纳米封装硫正极（NES™）技术。
+            <br><a class="source-link" href="https://news.metal.com/newscontent/103950529-Solid-State-Battery-Weekly-Update-June-5%E2%80%9311-2026" target="_blank">📋 SMM</a>
+        </div>
+    </div>
+</div>
+
+<!-- Section 3: Prices -->
+<div class="section">
+    <div class="section-header">
+        <h2>💹 价格行情</h2>
+        <span class="section-tag">6月上旬</span>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th>品种</th>
+                <th>价格</th>
+                <th>周变化</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>电池级碳酸锂</td>
+                <td><strong>16.4-16.7万元/吨</strong></td>
+                <td class="highlight">↑ 企稳反弹</td>
+                <td>6月初下探15.7万后回升，期货主力17.14万</td>
+            </tr>
+            <tr>
+                <td>电池级氢氧化锂</td>
+                <td><strong>15.0-15.5万元/吨</strong></td>
+                <td class="highlight-red">↓ 较5月初-6.6%</td>
+                <td>略弱于碳酸锂</td>
+            </tr>
+            <tr>
+                <td>电解钴</td>
+                <td><strong>39.90万元/吨</strong></td>
+                <td class="highlight-red">↓ 较5月初-5.7%</td>
+                <td>短期震荡为主</td>
+            </tr>
+            <tr>
+                <td>磷酸铁锂正极</td>
+                <td><strong>6.07万元/吨</strong></td>
+                <td class="highlight-red">↓ 较5月初-3.5%</td>
+                <td>短期承压</td>
+            </tr>
+            <tr>
+                <td>三元523正极</td>
+                <td><strong>19.35万元/吨</strong></td>
+                <td class="highlight">↑ 较5月初+3.8%</td>
+                <td>高端插混推动走强</td>
+            </tr>
+            <tr>
+                <td>六氟磷酸锂</td>
+                <td><strong>11.20万元/吨</strong></td>
+                <td class="highlight">↑ 较5月初+15.5%</td>
+                <td>行业进入向上周期</td>
+            </tr>
+            <tr>
+                <td>电解液</td>
+                <td><strong>3.12万元/吨</strong></td>
+                <td class="highlight-red">↓ 较5月初-1.3%</td>
+                <td>短期总体承压</td>
+            </tr>
+            <tr>
+                <td>硫化物电解质LPSC</td>
+                <td><strong>7,280元/千克</strong></td>
+                <td class="highlight-red">↓ 环比-5.5%</td>
+                <td>固态电池材料价格回落</td>
+            </tr>
+            <tr>
+                <td>高纯硫化锂</td>
+                <td><strong>1,530元/千克</strong></td>
+                <td class="highlight-red">↓ 环比-3.8%</td>
+                <td>成本降低加速产业化</td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="margin-top:14px;font-size:12px;color:#888;">
+        📋 数据来源：<a class="source-link" href="https://finance.sina.com.cn/wm/2026-06-13/doc-inicfeqy9862082.shtml" target="_blank">中原证券</a> · <a class="source-link" href="https://m.weibo.cn/detail/5308881347805265" target="_blank">波段猎手/市场数据</a> · <a class="source-link" href="https://news.metal.com/newscontent/103950529-Solid-State-Battery-Weekly-Update-June-5%E2%80%9311-2026" target="_blank">SMM</a> · <a class="source-link" href="https://m.weibo.cn/detail/5309363679920301" target="_blank">微博/行业调研</a>
+    </div>
+    <div style="margin-top:16px;font-size:13px;color:var(--text-secondary);line-height:1.7;padding:14px;background:var(--bg-primary);border-radius:10px;">
+        <strong>碳酸锂行情研判：</strong>6月8-11日，电池级碳酸锂现货从16.38万元/吨回升至16.65万元/吨，期货主力LC2609收报17.46万元/吨。社会库存约9.87万吨，周环比减少730吨，延续去化。中信证券维持2026年下半年25万元/吨目标价预测；华泰证券预计2026下半年仍存供需错配可能。6月锂电排产268GWh环比+7.6%，连续第四月刷新历史纪录。
+    </div>
+</div>
+
+<!-- Section 4: Market -->
+<div class="section">
+    <div class="section-header">
+        <h2>📊 市场扫描</h2>
+        <span class="section-tag">5月数据</span>
+    </div>
+
+    <h3 style="font-size:15px;margin-bottom:14px;">🚗 动力电池装车量（2026年5月）</h3>
+    <div class="data-grid">
+        <div class="data-card">
+            <div class="label">5月装车量</div>
+            <div class="value">71.9</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +25.9%</div>
+        </div>
+        <div class="data-card">
+            <div class="label">1-5月累计装车</div>
+            <div class="value">259.1</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +7.3%</div>
+        </div>
+        <div class="data-card">
+            <div class="label">LFP装车占比</div>
+            <div class="value">81.2%</div>
+            <div class="unit">5月</div>
+            <div class="change up">+25.4% YoY</div>
+        </div>
+        <div class="data-card">
+            <div class="label">NCM装车占比</div>
+            <div class="value">18.6%</div>
+            <div class="unit">5月</div>
+            <div class="change up">+27.3% YoY</div>
+        </div>
+    </div>
+
+    <h3 style="font-size:15px;margin:22px 0 14px;">🔋 动力+储能电池产销与出口</h3>
+    <div class="data-grid">
+        <div class="data-card">
+            <div class="label">5月总销量</div>
+            <div class="value">182.2</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +47.4%</div>
+        </div>
+        <div class="data-card">
+            <div class="label">1-5月累计销量</div>
+            <div class="value">783.4</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +48.5%</div>
+        </div>
+        <div class="data-card">
+            <div class="label">5月出口量</div>
+            <div class="value">29.3</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +53.7%</div>
+        </div>
+        <div class="data-card">
+            <div class="label">储能电池出口</div>
+            <div class="value">9.2</div>
+            <div class="unit">GWh</div>
+            <div class="change up">同比 +66.2%</div>
+        </div>
+    </div>
+
+    <h3 style="font-size:15px;margin:22px 0 14px;">🌍 海外储能建设动态（5月）</h3>
+    <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;padding:14px;background:var(--bg-primary);border-radius:10px;">
+        5月海外储能项目建设动态32起，总规模43.06GWh。重点项目：瑞士800MW/1.6GWh液流电池项目开建；印度3.37GWh单体储能电站投运（中国以外全球最大）；克罗地亚规划2GW/8GWh巨型储能配套AI园区；澳大利亚启动12GWh超级招标。欧洲投运项目最密集，覆盖法、波、比、西、保、匈等国。法国投运240MW/480MWh（TagEnergy），比利时投运320MWh（Engie），加州400MW/3.2GWh项目通过快速审批。
+        <br><a class="source-link" href="https://m.bjx.com.cn/mnews/20260608/1498964.shtml" target="_blank">📋 北极星储能网</a>
+    </div>
+
+    <div style="margin-top:12px;font-size:12px;color:#888;">
+        📋 数据来源：<a class="source-link" href="http://m.toutiao.com/group/7650715193500926514/" target="_blank">中国汽车动力电池产业创新联盟</a> · <a class="source-link" href="http://m.toutiao.com/group/7651154872800215595/" target="_blank">乘联会/崔东树</a> · <a class="source-link" href="https://www.c114pro.com/newsflashes/170883.html" target="_blank">C114</a>
+    </div>
+</div>
+
+<!-- Section 5: Industry Chain -->
+<div class="section">
+    <div class="section-header">
+        <h2>🔗 产业链动态</h2>
+        <span class="section-tag">上中下游</span>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon">⛏️</div>
+            <div class="news-title-wrap">
+                <div class="news-title">上游矿资源：供应扰动频发，锂价成本支撑明显</div>
+            </div>
+        </div>
+        <div class="news-desc">
+            <strong>锂矿：</strong>格林布什三期产线火情+枧下窝用地注销+宜春云母矿停产换证缓慢，供应端扰动叠加。但海外复产推进：Bald Hill重启、Mt Marion/Mt Holland扩产、阿根廷盐湖产能爬坡、津巴布韦5月锂精矿大批量到港。1-4月中国碳酸锂累计进口11.6万吨，同比+46.9%。社会库存9.87万吨周环比减少730吨，去库延续。<br>
+            <strong>镍/钴/石墨：</strong>电解钴39.9万元/吨较5月初回落5.7%。三元523正极19.35万元/吨逆势+3.8%，高端插混需求拉动。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650362064816308751/" target="_blank">📋 电池网</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon">🧪</div>
+            <div class="news-title-wrap">
+                <div class="news-title">中游材料：电解液长协潮+六氟磷酸锂大涨+隔膜供需紧平衡</div>
+            </div>
+        </div>
+        <div class="news-desc">
+            <strong>电解液：</strong>宁德时代3年77万吨长协打破格局，六氟磷酸锂从5万涨至11-12万元/吨，行业进入向上周期。国内已有产能539.5万吨/年，整体过剩但头部集中度提升。<br>
+            <strong>隔膜：</strong>行业开工率>90%，恩捷股份计划新增5亿m²湿法隔膜产能。扩产周期超1年，2026-2027新增产能有限，供需紧平衡。行业盈利从0.1元/m²底部有望修复至0.2-0.3元/m²。<br>
+            <strong>正极/负极：</strong>LFP正极6.07万元/吨微降，6月锂电排产268GWh环比+7.6%。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7650469779954762259/" target="_blank">📋 行业综合</a> · <a class="source-link" href="https://www.163.com/dy/article/KVCDGJTS05560O35.html" target="_blank">📋 网易</a>
+        </div>
+    </div>
+
+    <div class="news-item">
+        <div class="news-header">
+            <div class="news-icon">🏭</div>
+            <div class="news-title-wrap">
+                <div class="news-title">下游设备：SNEC 2026储能订单井喷超90GWh</div>
+            </div>
+        </div>
+        <div class="news-desc">
+            SNEC 2026展会储能主题馆首次反超光伏馆。赣锋锂电合作意向超30GWh领跑，海辰储能×美的科陆20GWh战略合作，楚能新能源12GWh三单落地，亿纬动力×赛唯数字能源10GWh，蜂巢能源8GWh。大容量电芯（588Ah/6.26MWh集装箱/3777Ah）从亮相走向交付量产。
+            <br><a class="source-link" href="https://c.m.163.com/news/a/KURF7I3U05568W0A.html" target="_blank">📋 世纪储能/网易</a>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Policy -->
+<div class="section">
+    <div class="section-header">
+        <h2>📜 政策法规</h2>
+        <span class="section-tag">7月1日实施</span>
+    </div>
+
+    <div class="policy-item">
+        <div class="policy-title">🔋 GB38031-2025《电动汽车用动力蓄电池安全要求》— 7月1日实施</div>
+        <div class="policy-desc">
+            核心变化：①热扩散要求从"5分钟报警"升级为<strong>"不起火、不爆炸"</strong>（仍需报警），烟气不对乘员造成伤害；②<strong>新增底部撞击测试</strong>（直径30mm钢球150J能量冲击）；③<strong>新增快充循环后安全测试</strong>（300次快充循环后外部短路测试，要求不起火不爆炸）。已获型式批准车型有1年过渡期至2027年7月。宁德时代全系量产品牌已通过新国标检测，比亚迪第二代刀片电池以超越国标标准通过实验。
+            <br><a class="source-link" href="http://www2.xinhuanet.com/fortune/20260611/cdcc11d71eef45d48500ef9999b9b689/c.html" target="_blank">📋 新华网/经济参考报</a>
+        </div>
+    </div>
+
+    <div class="policy-item">
+        <div class="policy-title">🚗 GB18384-2025《电动汽车安全要求》— 7月1日同步实施</div>
+        <div class="policy-desc">
+            核心变化：①<strong>强制配备物理一键断电装置</strong>，与软件系统独立，事故救援可靠性提升；②涉水深度从100mm提升至150mm；③新增整车底部刮底测试。两项新国标将推高动力电池成本，单车成本预估上涨5000-10000元，但安全性能大幅提升。
+            <br><a class="source-link" href="http://m.toutiao.com/group/7649948414976786963/" target="_blank">📋 广东市场监管</a>
+        </div>
+    </div>
+
+    <div class="policy-item">
+        <div class="policy-title">📋 工信部2026年汽车标准化工作要点</div>
+        <div class="policy-desc">
+            聚焦新能源汽车安全、性能与兼容等关键领域，持续提升电动汽车及动力电池安全标准要求。市场监管总局同步发布《车用火灾探测报警器》（GB47497-2026），三部门联合召开视频会要求车企将产品质量安全作为"一把手工程"。
+            <br><a class="source-link" href="http://www2.xinhuanet.com/fortune/20260611/cdcc11d71eef45d48500ef9999b9b689/c.html" target="_blank">📋 新华网</a>
+        </div>
+    </div>
+</div>
+
+<!-- Section 7: Key Companies -->
+<div class="section">
+    <div class="section-header">
+        <h2>🏢 重点公司动态</h2>
+        <span class="section-tag">2026年6月</span>
+    </div>
+
+    <div class="company-grid">
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:catl.svg" alt="CATL">
+            <div>
+                <div class="name">宁德时代 CATL</div>
+                <div class="detail">
+                    5月装车33.08GWh（+35.2%），1-5月121.66GWh（+17.9%），市占率47.0%（+4.3pp）。77万吨电解液长协、钠电池9月首批交付、固态电池2027年小批量、厦门储能研究院揭牌、枧下窝矿用地注销。系热管理专利获授权。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:byd.svg" alt="BYD">
+            <div>
+                <div class="name">比亚迪 BYD</div>
+                <div class="detail">
+                    5月装车11.87GWh，1-5月43.31GWh（-25.2%），市占率16.7%。新增入列美国CMC清单，公司声明"无正当理由，不影响业务"。第二代刀片电池通过电池新国标。全面转型磷酸铁锂路线。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:lg.svg" alt="LGES">
+            <div>
+                <div class="name">LG新能源 LGES</div>
+                <div class="detail">
+                    与DTE Energy签订2.4万亿韩元（6GWh）ESS电池供应协议。年底全球ESS产能目标60GWh+，其中50GWh+部署北美5座工厂。ESS收入占比目标35%，80%+ESS产能位于北美。4680/4695电池供应特斯拉和Rivian。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:samsung.svg" alt="SDI">
+            <div>
+                <div class="name">三星SDI</div>
+                <div class="detail">
+                    下半年美国ESS用LFP电池量产准备中。与L&F签订LFP正极材长协构建脱中国供应链。韩国电池商中率先量产4680大圆柱电池，先用于小型移动设备再拓展EV。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:eve.svg" alt="EVE">
+            <div>
+                <div class="name">亿纬锂能 EVE</div>
+                <div class="detail">
+                    5月装车3.23GWh（+54.5%），1-5月12.35GWh（+27.6%）。新增入列美国CMC清单。SNEC展会与赛唯数字能源签约10GWh ESS合作，大圆柱电池2026年放量。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://api.iconify.design/simple-icons:gotion.svg" alt="Gotion">
+            <div>
+                <div class="name">国轩高科 Gotion</div>
+                <div class="detail">
+                    5月装车4.44GWh（+48.0%），1-5月15.79GWh（+25.7%），排名升至第三。乘用车装机10.01GWh（+6.6%），商用车5.78GWh（+82.3%）。出口增速超行业平均。同步推进硫化物+氧化物双路线固态电池研发。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://raw.githubusercontent.com/DDVs3/public-report/main/web-icons/CALB-中创新航.svg" alt="CALB">
+            <div>
+                <div class="name">中创新航 CALB</div>
+                <div class="detail">
+                    5月装车4.30GWh同比持平，1-5月15.51GWh（+2.9%）。乘用车装机大幅下降，增长来自商用车（+139%）。新增入列美国CMC清单。360Wh/kg航空电池完成适航前认证并批量交付。
+                </div>
+            </div>
+        </div>
+        <div class="company-card">
+            <img src="https://raw.githubusercontent.com/DDVs3/public-report/main/web-icons/svolt-蜂巢.svg" alt="SVOLT">
+            <div>
+                <div class="name">蜂巢能源 SVOLT</div>
+                <div class="detail">
+                    1-5月装车4.86GWh（-32.5%）。SNEC展会与首航新能源、大海集团、巴西BlueSun等签约8GWh储能订单。发布122Ah户储、285kWh工商储、6.29MWh大储三款新品。全年出货冲刺60GWh+，目标整体盈利。
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:#888;">
+        📋 数据来源：<a class="source-link" href="http://m.toutiao.com/group/7650715193500926514/" target="_blank">动力电池联盟</a> · <a class="source-link" href="https://xueqiu.com/1334287437/394280345" target="_blank">雪球/sixn</a> · <a class="source-link" href="https://m.etnews.com/20260608000080" target="_blank">ET News</a> · <a class="source-link" href="https://www.polinews.co.kr/news/articleView.html?idxno=733556" target="_blank">PoliNews</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>全球电池产业周报 | 2026年6月第2期 | 数据截至2026年6月14日</p>
+    <p style="margin-top:6px;">本报告仅供研究参考，不构成投资建议。数据来源均已标注，请以原始来源为准。</p>
+</div>
+
+</div>
+</body>
+</html>
