@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>全球汽车行业周报 | 2026年6月第4周</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #ffffff;
+            --text-secondary: #a0a0a0;
+            --card-bg: #1a1a2e;
+            --border: #2a2a4a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 封面 */
+        .cover {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            border-radius: 24px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .cover h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #e94560 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover .date {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .key-point {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .key-point h3 {
+            color: var(--highlight);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .key-point p {
+            font-size: 1rem;
+            color: var(--text);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--highlight);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title .icon {
+            font-size: 1.6rem;
+        }
+        
+        /* 新闻列表 */
+        .news-list {
+            list-style: none;
+        }
+        
+        .news-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-item .tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            height: fit-content;
+        }
+        
+        .tag-policy { background: #4a90d9; color: white; }
+        .tag-market { background: #50c878; color: white; }
+        .tag-tech { background: #9b59b6; color: white; }
+        .tag-enterprise { background: #e74c3c; color: white; }
+        .tag-data { background: #f39c12; color: white; }
+        
+        .news-content {
+            flex: 1;
+        }
+        
+        .news-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        .news-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .news-meta {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* 数据卡片 */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .data-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .data-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 4px;
+        }
+        
+        .data-card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .data-card .change {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .change-up { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .change-down { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        
+        /* 图表容器 */
+        .chart-container {
+            width: 100%;
+            height: 350px;
+            margin: 20px 0;
+        }
+        
+        /* 车企卡片 */
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .brand-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: white;
+            padding: 4px;
+        }
+        
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .brand-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+        
+        .metric .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--highlight);
+        }
+        
+        .metric .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* 新车卡片 */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .car-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(233, 69, 96, 0.2);
+        }
+        
+        .car-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .car-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .type-bev { background: #3498db; }
+        .type-phev { background: #27ae60; }
+        .type-ice { background: #e67e22; }
+        
+        .car-body {
+            padding: 0 20px 20px;
+        }
+        
+        .car-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .car-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .spec {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .spec span {
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        /* 供应链卡片 */
+        .supply-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .supply-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .supply-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .supply-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .supply-tag {
+            padding: 4px 12px;
+            background: rgba(233, 69, 96, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--highlight);
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .footer a {
+            color: var(--highlight);
+            text-decoration: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .cover h1 { font-size: 1.8rem; }
+            .cover { padding: 40px 16px; }
+            .card { padding: 16px; }
+            .data-grid { grid-template-columns: repeat(2, 1fr); }
+            .brand-grid { grid-template-columns: 1fr; }
+            .car-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 封面 -->
+        <div class="cover">
+            <h1>🚗 全球汽车行业周报</h1>
+            <p class="date">2026年6月第4周 | 2026.06.21 - 2026.06.28</p>
+            
+            <div class="key-points">
+                <div class="key-point">
+                    <h3>📊 市场概览</h3>
+                    <p>6月前三周NEV渗透率63.8%，持续高位运行；车规存储芯片暴涨180%倒逼成本上升</p>
+                </div>
+                <div class="key-point">
+                    <h3>🏭 政策动向</h3>
+                    <p>商务部发布汽车后市场17条措施；工信部收紧2027年新车准入门槛</p>
+                </div>
+                <div class="key-point">
+                    <h3>🌍 贸易博弈</h3>
+                    <p>欧盟筹备对中国插混加征关税；大众宣布全球裁员5万人</p>
+                </div>
+                <div class="key-point">
+                    <h3>⚡ 技术突破</h3>
+                    <p>联合国通过全球首个自动驾驶系统法规；东风固态电池量产</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 核心要闻 -->
+        <div class="card">
+            <h2 class="card-title"><span class="icon">📰</span> 核心要闻</h2>
+            <ul class="news-list">
+                <li class="news-item">
+                    <span class="tag tag-policy">政策</span>
+                    <div class="news-content">
+                        <div class="news-title">商务部等9部门联合发文：全链条扩大汽车消费，培育壮大汽车后市场</div>
+                        <div class="news-desc">6月23日国新办发布会，公布40个汽车流通消费改革试点城市，发布后市场17条措施，聚焦汽车改装、房车露营等领域破除制度障碍。【来源：商务部官网 2026-06-26】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-policy">政策</span>
+                    <div class="news-content">
+                        <div class="news-title">工信部新规：2027年起新车须完成可靠性验证，3万公里/1.5万公里强制门槛</div>
+                        <div class="news-desc">燃油车须完成不低于3万公里可靠性验证，新能源车须完成不低于1.5万公里，"速成造车"模式将彻底终结。【来源：工信部公告 2026-01-21】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-market">贸易</span>
+                    <div class="news-content">
+                        <div class="news-title">欧盟筹备对中国插混车型加征反补贴关税，最高综合税率或达45.3%</div>
+                        <div class="news-desc">2025年中国对欧插混出口暴涨155%，欧盟拟沿用BEV分级体系加征7.8%-35.3%附加关税。【来源：德国《商报》2026-06-19】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-enterprise">企业</span>
+                    <div class="news-content">
+                        <div class="news-title">大众集团宣布全球裁员5万人、削减300万辆产能，首度关停德国本土整车厂</div>
+                        <div class="news-desc">德累斯顿"透明工厂"正式停产，2025年营业利润暴跌53.5%至89亿欧元。【来源：新浪财经 2026-06-18】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-tech">技术</span>
+                    <div class="news-content">
+                        <div class="news-title">联合国通过全球首个自动驾驶系统法规 ADS GTR，中美欧日共同牵头制定</div>
+                        <div class="news-desc">工信部推进国内L3/L4级自动驾驶强制性国标，将为自动驾驶技术有序安全落地提供统一遵循。【来源：新华网 2026-06-26】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-tech">技术</span>
+                    <div class="news-content">
+                        <div class="news-title">东风固态电池产线正式启动量产，蔚来/上汽/奇瑞等搭载混合固液电池</div>
+                        <div class="news-desc">2026年7月1日固态电池国标正式实施，明确"半固态≠全固态"，全固态大规模量产仍需2030年。【来源：21经济网 2026-06-22】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-market">供应链</span>
+                    <div class="news-content">
+                        <div class="news-title">车规存储芯片3个月暴涨180%，AI服务器"虹吸"晶圆产能</div>
+                        <div class="news-desc">三星/SK海力士/美光将70%-80%先进产能转向HBM，单车存储成本从40-90美元飙升至90-220美元。【来源：央视财经 2026-06】</div>
+                    </div>
+                </li>
+                <li class="news-item">
+                    <span class="tag tag-enterprise">企业</span>
+                    <div class="news-content">
+                        <div class="news-title">比亚迪王传福会面地平线余凯，智驾领域深度合作在即</div>
+                        <div class="news-desc">地平线4月乘用车辅助驾驶域控芯片装机总量60万套，英伟达以50.9%份额居首，地平线升至第二。【来源：IT之家 2026-06-28】</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 市场全景 -->
+        <div class="card">
+            <h2 class="card-title"><span class="icon">📊</span> 市场全景</h2>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="value">165万</div>
+                    <div class="label">6月预测零售（万辆）</div>
+                    <div class="change change-down">同比-19%</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">63.8%</div>
+                    <div class="label">6月前三周NEV渗透率</div>
+                    <div class="change change-up">持续高位</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">91.3万</div>
+                    <div class="label">6月1-21日零售（万辆）</div>
+                    <div class="change change-down">同比-23%</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">801.2万</div>
+                    <div class="label">1-6月累计零售（万辆）</div>
+                    <div class="change change-down">同比-20%</div>
+                </div>
+            </div>
+            
+            <div id="salesChart" class="chart-container"></div>
+            
+            <p style="font-size: 0.8rem; color: #666; margin-top: 12px;">📋 数据来源：乘联分会【2026-06-24】 | 中汽协【2026-06-10】</p>
+        </div>
+        
+        <!-- 新车情报局 -->
+        <div class="card">
+            <h2 class="card-title"><span class="icon">🚘</span> 新车情报局</h2>
+            
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-header">
+                        <img src="https://api.iconify.design/simple-icons:honda.svg" class="brand-logo" alt="AITO" onerror="this.style.display='none'">
+                        <span class="car-type type-phev">增程</span>
+                    </div>
+                    <div class="car-body">
+                        <div class="car-name">问界 M9 新款</div>
+                        <div class="car-specs">
+                            <div class="spec">售价：<span>47.98万起</span></div>
+                            <div class="spec">零百：<span>4.2s</span></div>
+                            <div class="spec">纯电续航：<span>最高375km</span></div>
+                            <div class="spec">智驾：<span>华为ADS 5</span></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--highlight); margin-top: 12px;">📌 上市1月大定破4.2万台</p>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <div class="car-header">
+                        <img src="https://api.iconify.design/simple-icons:byd.svg" class="brand-logo" alt="BYD" onerror="this.style.display='none'">
+                        <span class="car-type type-bev">纯电</span>
+                    </div>
+                    <div class="car-body">
+                        <div class="car-name">零跑 D99</div>
+                        <div class="car-specs">
+                            <div class="spec">售价：<span>24.98万起</span></div>
+                            <div class="spec">定位：<span>大型SUV</span></div>
+                            <div class="spec">座椅：<span>6座布局</span></div>
+                            <div class="spec">平台：<span>LEAP3.5</span></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--highlight); margin-top: 12px;">📌 零跑品牌向上战略车型</p>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <div class="car-header">
+                        <img src="https://api.iconify.design/simple-icons:xiaomi.svg" class="brand-logo" alt="Xiaomi" onerror="this.style.display='none'">
+                        <span class="car-type type-bev">纯电</span>
+                    </div>
+                    <div class="car-body">
+                        <div class="car-name">小米 YU7 标准版</div>
+                        <div class="car-specs">
+                            <div class="spec">售价：<span>23.35万起</span></div>
+                            <div class="spec">续航：<span>643km</span></div>
+                            <div class="spec">累计交付：<span>24.4万辆</span></div>
+                            <div class="spec">5月交付：<span>8,736辆</span></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--highlight); margin-top: 12px;">📌 上市满一年，SU7改款在即</p>
+                    </div>
+                </div>
+                
+                <div class="car-card">
+                    <div class="car-header">
+                        <img src="https://api.iconify.design/simple-icons:byd.svg" class="brand-logo" alt="BYD" onerror="this.style.display='none'">
+                        <span class="car-type type-bev">纯电</span>
+                    </div>
+                    <div class="car-body">
+                        <div class="car-name">理想 i6</div>
+                        <div class="car-specs">
+                            <div class="spec">售价：<span>24.98万</span></div>
+                            <div class="spec">定位：<span>中大型SUV</span></div>
+                            <div class="spec">零百：<span>5.2s</span></div>
+                            <div class="spec">累计下线：<span>15万辆</span></div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--highlight); margin-top: 12px;">📌 连续3月破2万台，中大型SUV销冠</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 车企动态 -->
+        <div class="card">
+            <h2 class="card-title"><span class="icon">🏢</span> 车企动态</h2>
+            
+            <div class="brand-grid">
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:byd.svg" class="brand-logo" alt="BYD">
+                        <span class="brand-name">比亚迪</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">38.3万</div>
+                            <div class="label">5月销量</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">+80.7%</div>
+                            <div class="label">5月出口增长</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">16万</div>
+                            <div class="label">5月出口量</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">1-5月140.5万</div>
+                            <div class="label">新能源累计</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 匈牙利工厂Q4量产；王传福会见地平线余凯深化智驾合作</p>
+                </div>
+                
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:tesla.svg" class="brand-logo" alt="Tesla">
+                        <span class="brand-name">特斯拉</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">40.6万</div>
+                            <div class="label">Q2交付预期</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">+12%</div>
+                            <div class="label">环比Q1</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">13.8GWh</div>
+                            <div class="label">Q2储能预期</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">62%</div>
+                            <div class="label">美国1-5月EV市占率</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 Q2交付数据预计7月2日公布；上海储能工厂接近满产</p>
+                </div>
+                
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:leapmotor.svg" class="brand-logo" alt="Leapmotor" onerror="this.style.display='none'">
+                        <span class="brand-name">零跑汽车</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">81,569</div>
+                            <div class="label">5月交付（辆）</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">+81%</div>
+                            <div class="label">同比增长</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">150万</div>
+                            <div class="label">全球累计交付</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">1-5月7.5万</div>
+                            <div class="label">出口量（超去年全年）</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 西班牙电池组装车间落成；D99上市24.98万起；第二品牌2027年亮相</p>
+                </div>
+                
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:nio.svg" class="brand-logo" alt="NIO">
+                        <span class="brand-name">蔚来</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">37,705</div>
+                            <div class="label">5月交付（辆）</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">+62.3%</div>
+                            <div class="label">同比增长</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">ES9首月破万</div>
+                            <div class="label">30天达成</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">Q1盈利</div>
+                            <div class="label">连续两季</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 李斌预判2030年新能源渗透率超90%；ES8北京市场占有率47%</p>
+                </div>
+                
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:xiaomi.svg" class="brand-logo" alt="Xiaomi" onerror="this.style.display='none'">
+                        <span class="brand-name">小米汽车</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">3.28万</div>
+                            <div class="label">5月交付（辆）</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">15万+</div>
+                            <div class="label">1-5月累计</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">55万</div>
+                            <div class="label">年度目标</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">完成27.3%</div>
+                            <div class="label">目标进度</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 SU7改款在即；寻天SUV即将发布；YU7产能让渡</p>
+                </div>
+                
+                <div class="brand-card">
+                    <div class="brand-header">
+                        <img src="https://api.iconify.design/simple-icons:xpeng.svg" class="brand-logo" alt="XPeng" onerror="this.style.display='none'">
+                        <span class="brand-name">小鹏汽车</span>
+                    </div>
+                    <div class="brand-metrics">
+                        <div class="metric">
+                            <div class="value">Q1亏损17.8亿</div>
+                            <div class="label">净亏损</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">2.84万</div>
+                            <div class="label">单车亏损</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">6.27万</div>
+                            <div class="label">Q1交付</div>
+                        </div>
+                        <div class="metric">
+                            <div class="value">IRON机器人</div>
+                            <div class="label">何小鹏亲自挂帅</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px;">📌 马来西亚工厂投产；Q1营收128亿；加速布局物理AI</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 零部件与供应链 -->
+        <div class="card">
+            <h2 class="card-title"><span class="icon">🔧</span> 零部件与供应链</h2>
+            
+            <div class="supply-card">
+                <div class="supply-title">📈 车规存储芯片暴涨180%，AI产能虹吸成主因</div>
+                <div class="supply-desc">
+                    三星/SK海力士/美光三大存储巨头垄断90%+市场份额，将70%-80%先进制程产能转向HBM高带宽内存（毛利率85%-90%），导致车规级DDR4/DDR5严重缺货。部分紧缺型号交期排至24-52周。
+                </div>
+                <div class="supply-tags">
+                    <span class="supply-tag">DDR5涨幅超300%</span>
+                    <span class="supply-tag">单车存储成本增1-1.5万</span>
+                    <span class="supply-tag">十余家车企已调价</span>
+                    <span class="supply-tag">国产替代加速</span>
+                </div>
+            </div>
+            
+            <div class="supply-card">
+                <div class="supply-title">⚡ 固态电池：2026是"半固态量产元年"，全固态仍需等待</div>
+                <div class="supply-desc">
+                    东风固态电池产线量产，蔚来ET9/上汽MG4/广汽昊铂/奇瑞等将搭载混合固液电池（能量密度350-400Wh/kg）。7月1日国标实施明确定义：液态电解液＜5%才算全固态。中科院陈剑团队突破固态电解质贴合难题。
+                </div>
+                <div class="supply-tags">
+                    <span class="supply-tag">国轩"钠晨"量产</span>
+                    <span class="supply-tag">宁德时代凝聚态Q3交付</span>
+                    <span class="supply-tag">比亚迪20GWh产线Q3开工</span>
+                    <span class="supply-tag">丰田全固态延至2028</span>
+                </div>
+            </div>
+            
+            <div class="supply-card">
+                <div class="supply-title">🤖 智驾芯片：自研竞赛白热化，比亚迪牵手地平线</div>
+                <div class="supply-desc">
+                    理想马赫M100（1280TOPS/5nm）、蔚来神玑1016TOPS/5nm出货55万+片、小鹏图灵750TOPS/7nm获大众定点、比亚迪璇玑A3（4nm/700TOPS）已发布。地平线HSD装机占比升至13.6%，仅次于英伟达。
+                </div>
+                <div class="supply-tags">
+                    <span class="supply-tag">英伟达域控份额50.9%</span>
+                    <span class="supply-tag">地平线跃居第二</span>
+                    <span class="supply-tag">王传福会见余凯</span>
+                    <span class="supply-tag">舱驾一体趋势加速</span>
+                </div>
+            </div>
+            
+            <div class="supply-card">
+                <div class="supply-title">🌐 联合国通过全球首个自动驾驶系统法规 ADS GTR</div>
+                <div class="supply-desc">
+                    中国/欧盟/英国/美国/加拿大/日本共同牵头的联合国自动驾驶系统全球技术法规获批发布。工信部同步推进国内L3/L4级强制性国标，将为自动驾驶技术有序安全落地提供统一遵循。
+                </div>
+                <div class="supply-tags">
+                    <span class="supply-tag">国际标准话语权</span>
+                    <span class="supply-tag">L3/L4国标推进中</span>
+                    <span class="supply-tag">多支柱试验方案</span>
+                    <span class="supply-tag">规范误用滥用</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: #666; margin-top: 12px;">📋 数据来源：央视财经【2026-06】 | 新华网【2026-06-26】 | 21经济网【2026-06-22】 | IT之家【2026-06-28】</p>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>全球汽车行业周报 | 2026年6月第4周</p>
+            <p>数据来源：乘联分会 | 中汽协 | 盖世汽车 | Automotive News | ACEA</p>
+            <p style="margin-top: 16px;">
+                Generated by <strong>DDVs Auto Weekly Bot</strong>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // 销售趋势图表
+        var salesChart = echarts.init(document.getElementById('salesChart'));
+        
+        var option = {
+            backgroundColor: 'transparent',
+            title: {
+                text: '2026年6月周度零售走势',
+                left: 'center',
+                textStyle: {
+                    color: '#ffffff',
+                    fontSize: 16
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: 'rgba(26, 26, 46, 0.9)',
+                borderColor: '#2a2a4a',
+                textStyle: { color: '#fff' }
+            },
+            legend: {
+                data: ['乘用车零售', '新能源零售', 'NEV渗透率'],
+                bottom: 0,
+                textStyle: { color: '#a0a0a0' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '15%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['第1周', '第2周', '第3周(端午)', '6月预测'],
+                axisLine: { lineStyle: { color: '#2a2a4a' } },
+                axisLabel: { color: '#a0a0a0' }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '万辆',
+                    axisLine: { lineStyle: { color: '#2a2a4a' } },
+                    axisLabel: { color: '#a0a0a0' },
+                    splitLine: { lineStyle: { color: '#1a1a2e' } }
+                },
+                {
+                    type: 'value',
+                    name: '%',
+                    max: 80,
+                    axisLine: { lineStyle: { color: '#2a2a4a' } },
+                    axisLabel: { color: '#a0a0a0' },
+                    splitLine: { show: false }
+                }
+            ],
+            series: [
+                {
+                    name: '乘用车零售',
+                    type: 'bar',
+                    data: [23.1, 30.8, 21.6, 90],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#4a90d9' },
+                            { offset: 1, color: '#2a5a8a' }
+                        ])
+                    },
+                    barWidth: '30%'
+                },
+                {
+                    name: '新能源零售',
+                    type: 'bar',
+                    data: [14.5, 20.2, 15.5, 58],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#50c878' },
+                            { offset: 1, color: '#2a8a4a' }
+                        ])
+                    },
+                    barWidth: '30%'
+                },
+                {
+                    name: 'NEV渗透率',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: [62.8, 65.6, 71.8, 63.8],
+                    smooth: true,
+                    lineStyle: { color: '#e94560', width: 3 },
+                    itemStyle: { color: '#e94560' },
+                    symbol: 'circle',
+                    symbolSize: 8
+                }
+            ]
+        };
+        
+        salesChart.setOption(option);
+        
+        // 响应式
+        window.addEventListener('resize', function() {
+            salesChart.resize();
+        });
+    </script>
+</body>
+</html>
